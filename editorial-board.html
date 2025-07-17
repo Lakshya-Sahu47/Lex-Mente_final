@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editorial Board - Lex Mente</title>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;600;700;900&family=Georgia&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --header-blue-gray: rgb(68, 71, 96);
+            --headings-gray: rgb(34, 34, 39);
+            --burgundy: #642c35;
+            --oxblood: #4B1E27;
+            --body-text: #212121;
+            --highlight: #a63e4b;
+            --white: #ffffff;
+            --linkedin-blue: #0077b5;
+            --instagram-purple: #e4405f;
+            --facebook-blue: #3b5998;
+        }
+        
+        body {
+            font-family: Georgia, serif;
+            font-size: 1rem;
+            line-height: 1.6;
+            color: var(--body-text);
+            margin: 0;
+            padding: 0;
+            background-color: var(--white);
+        }
+        
+        /* Header Styles */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            border-bottom: 1px solid rgba(100, 44, 53, 0.1);
+            background-color: var(--header-blue-gray);
+            position: relative;
+            height: 90px;
+            box-sizing: border-box;
+        }
+        
+        /* Premium Logo Styles */
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            position: relative;
+            height: 100%;
+        }
+        
+        .logo-img {
+            height: 75px;
+            width: auto;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .logo-text {
+            font-family: 'Merriweather', Georgia, serif;
+            font-size: 2.1rem;
+            font-weight: 900;
+            color: var(--white);
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            line-height: 1;
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+            -webkit-text-stroke: 0.5px rgba(255,255,255,0.4);
+            text-stroke: 0.5px rgba(255,255,255,0.4);
+            letter-spacing: 0.5px;
+        }
+        
+        .logo-text:hover {
+            transform: perspective(100px) translateZ(10px) scale(1.05);
+            color: var(--highlight);
+            text-shadow: 0 6px 12px rgba(166, 62, 75, 0.5);
+            -webkit-text-stroke: 0.5px rgba(255,255,255,0.6);
+            text-stroke: 0.5px rgba(255,255,255,0.6);
+        }
+        
+        .logo-text::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .logo-text:hover::before {
+            opacity: 1;
+        }
+        
+        .logo-text::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--highlight), rgba(166, 62, 75, 0.7), transparent);
+            transition: width 0.4s ease;
+        }
+        
+        .logo-text:hover::after {
+            width: 100%;
+        }
+        
+        .logo-tagline {
+            font-family: 'Merriweather', Georgia, serif;
+            font-size: 0.7rem;
+            font-weight: 400;
+            letter-spacing: 1.8px;
+            color: rgba(255,255,255,0.7);
+            margin-top: 0.5rem;
+            transition: all 0.4s ease;
+            text-transform: uppercase;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+        
+        .logo-container:hover .logo-tagline {
+            color: var(--highlight);
+            letter-spacing: 2px;
+            text-shadow: 0 2px 4px rgba(166, 62, 75, 0.3);
+        }
+        
+        .logo-container:hover .logo-img {
+            transform: perspective(500px) rotateX(10deg) rotateY(10deg) scale(1.05);
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+        }
+        
+        /* Hamburger Menu */
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 1.5rem;
+            padding: 0.5rem;
+        }
+        
+        /* Enhanced Desktop Navigation */
+        .desktop-nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1rem;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            align-items: center;
+        }
+        
+        .desktop-nav a {
+            font-family: 'Merriweather', Georgia, serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--white);
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            padding: 0.75rem 1rem;
+            letter-spacing: 0.5px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+        
+        .desktop-nav a:hover {
+            color: var(--highlight);
+            transform: translateY(-2px);
+            text-shadow: 0 2px 4px rgba(166, 62, 75, 0.3);
+            background: rgba(255,255,255,0.05);
+            border-radius: 4px;
+        }
+        
+        .desktop-nav a.active {
+            color: var(--highlight);
+            font-weight: 900;
+            letter-spacing: 0.8px;
+        }
+        
+        .desktop-nav a.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0.5rem;
+            left: 1rem;
+            width: calc(100% - 2rem);
+            height: 2px;
+            background-color: var(--highlight);
+            transform-origin: left center;
+            transform: scaleX(1);
+            transition: transform 0.3s ease;
+        }
+        
+        .desktop-nav a:not(.active)::after {
+            content: '';
+            position: absolute;
+            bottom: 0.5rem;
+            left: 1rem;
+            width: calc(100% - 2rem);
+            height: 1px;
+            background-color: rgba(255,255,255,0.2);
+            transform-origin: right center;
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .desktop-nav a:hover::after {
+            transform-origin: left center;
+            transform: scaleX(1);
+            background-color: var(--highlight);
+        }
+        
+        /* Enhanced Mobile Navigation */
+        .mobile-nav {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background-color: var(--header-blue-gray);
+            z-index: 1000;
+            padding: 1rem 0;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .mobile-nav ul {
+            flex-direction: column;
+            gap: 0.5rem;
+            padding: 0 2rem;
+            list-style: none;
+            margin: 0;
+        }
+        
+        .mobile-nav a {
+            display: block;
+            font-family: 'Merriweather', Georgia, serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--white);
+            text-decoration: none;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: color 0.3s;
+        }
+        
+        .mobile-nav a:last-child {
+            border-bottom: none;
+        }
+        
+        .mobile-nav a:hover {
+            color: var(--highlight);
+        }
+        
+        .mobile-nav a.active {
+            color: var(--highlight);
+            font-weight: 900;
+        }
+        
+        /* Remove underline from active link in mobile nav */
+        .mobile-nav a.active::after {
+            display: none;
+        }
+        
+        /* Main Content */
+        .main-container {
+            max-width: 900px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+        }
+        
+        h1, h2, h3 {
+            font-family: 'Merriweather', Georgia, serif;
+            color: var(--headings-gray);
+            font-weight: bold;
+        }
+        
+        h1 {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--headings-gray);
+            margin: 3rem 0 1.5rem;
+            border-bottom: 2px solid rgba(100, 44, 53, 0.2);
+            padding-bottom: 0.5rem;
+        }
+        
+        h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--headings-gray);
+            margin: 1.5rem 0 0.5rem;
+        }
+        
+        .team-section {
+            margin-bottom: 3rem;
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+        
+        .team-card {
+            background-color: rgba(100, 44, 53, 0.05);
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .team-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+            background-color: rgba(100, 44, 53, 0.08);
+        }
+        
+        .founder-card,
+        .advisor-card {
+            grid-column: span 2;
+            padding: 2rem;
+        }
+        
+        .editor-in-chief-card {
+            grid-column: span 2;
+            padding: 2rem;
+        }
+        
+        .team-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 1rem;
+            border: 3px solid var(--burgundy);
+        }
+        
+        .founder-card .team-photo,
+        .editor-in-chief-card .team-photo,
+        .advisor-card .team-photo {
+            width: 150px;
+            height: 150px;
+            border-width: 4px;
+        }
+        
+        .team-name {
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+            font-size: 1.2rem;
+        }
+        
+        .founder-card .team-name,
+        .editor-in-chief-card .team-name,
+        .advisor-card .team-name {
+            font-size: 1.4rem;
+        }
+        
+        .team-position {
+            color: var(--burgundy);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .founder-card .team-position,
+        .editor-in-chief-card .team-position,
+        .advisor-card .team-position {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+        
+        .team-bio {
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .founder-card .team-bio,
+        .editor-in-chief-card .team-bio,
+        .advisor-card .team-bio {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .team-social {
+            margin-top: 1rem;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .team-social a {
+            color: var(--burgundy);
+            transition: color 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        .team-social a:hover {
+            color: var(--highlight);
+        }
+        
+        .placeholder-img {
+            width: 100%;
+            height: 200px;
+            background-color: rgba(100, 44, 53, 0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--burgundy);
+            margin: 2rem 0;
+        }
+
+        /* Footer Styles */
+        footer {
+            background-color: rgba(100, 44, 53, 0.05);
+            padding: 2rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--body-text);
+            text-decoration: none;
+            transition: all 0.3s;
+            font-family: Georgia, serif;
+        }
+        
+        .social-link:hover {
+            transform: translateY(-2px);
+        }
+        
+        .social-icon {
+            font-size: 1.5rem;
+            transition: all 0.3s;
+        }
+        
+        .social-link:hover .social-icon {
+            transform: scale(1.1);
+        }
+        
+        .linkedin-icon {
+            color: var(--linkedin-blue);
+        }
+        
+        .instagram-icon {
+            color: var(--instagram-purple);
+        }
+        
+        .facebook-icon {
+            color: var(--facebook-blue);
+        }
+        
+        .footer-text {
+            font-size: 0.875rem;
+            font-weight: 300;
+            margin-bottom: 1rem;
+            font-family: Georgia, serif;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .desktop-nav ul {
+                gap: 0.8rem;
+            }
+            
+            .founder-card,
+            .editor-in-chief-card,
+            .advisor-card {
+                grid-column: span 1;
+                padding: 1.5rem;
+            }
+            
+            .founder-card .team-photo,
+            .editor-in-chief-card .team-photo,
+            .advisor-card .team-photo {
+                width: 120px;
+                height: 120px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            header {
+                flex-direction: row;
+                padding: 1rem;
+                height: auto;
+            }
+            
+            .logo-container {
+                margin-bottom: 0;
+                flex-direction: row;
+                text-align: left;
+            }
+            
+            .logo-img {
+                height: 65px;
+            }
+            
+            .logo-text {
+                font-size: 1.8rem;
+            }
+            
+            .logo-tagline {
+                font-size: 0.65rem;
+                letter-spacing: 1.5px;
+            }
+            
+            .desktop-nav {
+                display: none;
+            }
+            
+            .hamburger {
+                display: block;
+            }
+            
+            .mobile-nav.active {
+                display: block;
+            }
+            
+            h1 {
+                font-size: 1.75rem;
+            }
+            
+            h2 {
+                font-size: 1.25rem;
+                margin: 2rem 0 1rem;
+            }
+            
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .social-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .main-container {
+                padding: 0 1rem;
+            }
+            
+            .logo-img {
+                height: 55px;
+            }
+            
+            .logo-text {
+                font-size: 1.5rem;
+            }
+            
+            .logo-tagline {
+                font-size: 0.6rem;
+                letter-spacing: 1.2px;
+            }
+            
+            h3 {
+                font-size: 1.1rem;
+            }
+            
+            .team-photo {
+                width: 100px;
+                height: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <img src="logo.png" alt="Lex Mente Logo" class="logo-img">
+            <a href="index.html" class="logo-text">
+                LEX MENTE
+                <span class="logo-tagline">WHERE MINDS MEET LAW</span>
+            </a>
+        </div>
+        
+        <button class="hamburger" aria-label="Menu" aria-expanded="false" aria-controls="mobile-nav">
+            <i class="fas fa-bars"></i>
+        </button>
+        
+        <nav class="desktop-nav">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="journal.html">Journal</a></li>
+                <li><a href="call-for-papers.html">Call for Papers</a></li>
+                <li><a href="policy-guidelines.html">Policies & Guidelines</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="editorial-board.html" class="active">Editorial Board</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+            </ul>
+        </nav>
+        
+        <nav class="mobile-nav" id="mobile-nav">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="journal.html">Journal</a></li>
+                <li><a href="call-for-papers.html">Call for Papers</a></li>
+                <li><a href="policy-guidelines.html">Policies & Guidelines</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="editorial-board.html" class="active">Editorial Board</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main class="main-container">
+        <h1>People Behind Lex Mente</h1>
+        
+        <div class="team-section">
+            <h2>Advisory Board</h2>
+            <div class="team-grid">
+                <div class="team-card advisor-card">
+                    <img src="https://via.placeholder.com/150" alt="Dr. Jane Smith, Legal Scholar" class="team-photo">
+                    <div class="team-name">Dr. Jane Smith</div>
+                    <div class="team-position">Legal Scholar</div>
+                    <div class="team-bio">Professor of Constitutional Law</div>
+                    <div class="team-social">
+                        <a href="#" aria-label="Dr. Jane Smith's LinkedIn"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" aria-label="Dr. Jane Smith's Twitter"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="team-card advisor-card">
+                    <img src="https://via.placeholder.com/150" alt="Prof. John Doe, Human Rights Expert" class="team-photo">
+                    <div class="team-name">Prof. John Doe</div>
+                    <div class="team-position">Human Rights Expert</div>
+                    <div class="team-bio">Director, Center for Legal Studies</div>
+                    <div class="team-social">
+                        <a href="#" aria-label="Prof. John Doe's LinkedIn"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" aria-label="Prof. John Doe's Twitter"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="team-section">
+            <h2>Editorial Board</h2>
+            
+            <h3>Editor-in-Chief</h3>
+            <div class="team-grid">
+                <div class="team-card editor-in-chief-card">
+                    <img src="https://via.placeholder.com/150" alt="Sarah Johnson, Editor-in-Chief" class="team-photo">
+                    <div class="team-name">Sarah Johnson</div>
+                    <div class="team-position">Editor-in-Chief</div>
+                    <div class="team-bio">Final Year Law Student</div>
+                    <div class="team-social">
+                        <a href="#" aria-label="Sarah Johnson's LinkedIn"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" aria-label="Sarah Johnson's Twitter"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <h3>Senior Editors</h3>
+            <div class="team-grid">
+                <div class="team-card">
+                    <img src="https://via.placeholder.com/150" alt="Michael Chen, Senior Editor" class="team-photo">
+                    <div class="team-name">Michael Chen</div>
+                    <div class="team-position">Senior Editor</div>
+                    <div class="team-bio">Criminal Law Specialist</div>
+                    <div class="team-social">
+                        <a href="#" aria-label="Michael Chen's LinkedIn"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" aria-label="Michael Chen's Twitter"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="team-card">
+                    <img src="https://via.placeholder.com/150" alt="Priya Patel, Senior Editor" class="team-photo">
+                    <div class="team-name">Priya Patel</div>
+                    <div class="team-position">Senior Editor</div>
+                    <div class="team-bio">International Law Expert</div>
+                    <div class="team-social">
+                        <a href="#" aria-label="Priya Patel's LinkedIn"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" aria-label="Priya Patel's Twitter"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="team-card">
+                    <img src="https://via.placeholder.com/150" alt="Robert Johnson, Senior Editor" class="team-photo">
+                    <div class="team-name">Robert Johnson</div>
+                    <div class="team-position">Senior Editor</div>
+                    <div class="team-bio">Corporate Law Specialist</div>
+                    <div class="team-social">
+                        <a href="#" aria-label="Robert Johnson's LinkedIn"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" aria-label="Robert Johnson's Twitter"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="team-card">
+                    <img src="https://via.placeholder.com/150" alt="Emma Wilson, Senior Editor" class="team-photo">
+                    <div class="team-name">Emma Wilson</div>
+                    <div class="team-position">Senior Editor</div>
+                    <div class="team-bio">Constitutional Law Expert</div>
+                    <div class="team-social">
+                        <a href="#" aria-label="Emma Wilson's LinkedIn"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" aria-label="Emma Wilson's Twitter"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <h3>Associate Editors</h3>
+            <div class="team-grid">
+                <div class="team-card">
+                    <img src="https://via.placeholder.com/150" alt="Alex Wong, Associate Editor" class="team-photo">
+                    <div class="team-name">Alex Wong</div>
+                    <div class="team-position">Associate Editor</div>
+                    <div class="team-bio">Corporate Law Focus</div>
+                    <div class="team-social">
+                        <a href="#" aria-label="Alex Wong's LinkedIn"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" aria-label="Alex Wong's Twitter"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="team-card">
+                    <img src="https://via.placeholder.com/150" alt="Emily Davis, Associate Editor" class="team-photo">
+                    <div class="team-name">Emily Davis</div>
+                    <div class="team-position">Associate Editor</div>
+                    <div class="team-bio">Human Rights Advocate</div>
+                    <div class="team-social">
+                        <a href="#" aria-label="Emily Davis's LinkedIn"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" aria-label="Emily Davis's Twitter"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="team-card">
+                    <img src="https://via.placeholder.com/150" alt="Rajesh Kumar, Associate Editor" class="team-photo">
+                    <div class="team-name">Rajesh Kumar</div>
+                    <div class="team-position">Associate Editor</div>
+                    <div class="team-bio">Constitutional Law Scholar</div>
+                    <div class="team-social">
+                        <a href="#" aria-label="Rajesh Kumar's LinkedIn"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" aria-label="Rajesh Kumar's Twitter"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="team-section">
+            <h2>Founders</h2>
+            <div class="team-grid">
+                <div class="team-card founder-card">
+                    <img src="https://via.placeholder.com/150" alt="Aarav Sharma, Founder and Publisher" class="team-photo">
+                    <div class="team-name">Aarav Sharma</div>
+                    <div class="team-position">Founder and Publisher</div>
+                    <div class="team-bio">Visionary behind Lex Mente</div>
+                    <div class="team-social">
+                        <a href="#" aria-label="Aarav Sharma's LinkedIn"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" aria-label="Aarav Sharma's Twitter"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="team-card founder-card">
+                    <img src="https://via.placeholder.com/150" alt="Neha Gupta, Co-Founder" class="team-photo">
+                    <div class="team-name">Neha Gupta</div>
+                    <div class="team-position">Co-Founder</div>
+                    <div class="team-bio">Strategic Development Lead</div>
+                    <div class="team-social">
+                        <a href="#" aria-label="Neha Gupta's LinkedIn"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" aria-label="Neha Gupta's Twitter"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <h3>Media & Design</h3>
+            <div class="team-grid">
+                <div class="team-card">
+                    <img src="https://via.placeholder.com/150" alt="David Kim, Creative Director" class="team-photo">
+                    <div class="team-name">David Kim</div>
+                    <div class="team-position">Creative Director</div>
+                    <div class="team-bio">Branding and Visual Identity</div>
+                    <div class="team-social">
+                        <a href="#" aria-label="David Kim's LinkedIn"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" aria-label="David Kim's Twitter"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="team-card">
+                    <img src="https://via.placeholder.com/150" alt="Lisa Park, Web Developer" class="team-photo">
+                    <div class="team-name">Lisa Park</div>
+                    <div class="team-position">Web Developer</div>
+                    <div class="team-bio">Digital Platform Architect</div>
+                    <div class="team-social">
+                        <a href="#" aria-label="Lisa Park's LinkedIn"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" aria-label="Lisa Park's Twitter"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <div class="social-links">
+            <a href="https://www.linkedin.com/company/lex-mente70/" class="social-link" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-linkedin social-icon linkedin-icon"></i>
+                <span>LinkedIn</span>
+            </a>
+            <a href="https://www.instagram.com/lexmente.in" class="social-link" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-instagram social-icon instagram-icon"></i>
+                <span>Instagram</span>
+            </a>
+            <a href="https://www.facebook.com/share/1Cza7tBuYo/" class="social-link" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-facebook social-icon facebook-icon"></i>
+                <span>Facebook</span>
+            </a>
+        </div>
+        <p class="footer-text">For queries, please contact: <a href="mailto:support@lexmente.in" style="color: var(--highlight);">support@lexmente.in</a></p>
+        <p class="footer-text">© 2025 Lex Mente. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Improved hamburger menu toggle with accessibility
+        const hamburger = document.querySelector('.hamburger');
+        const mobileNav = document.querySelector('.mobile-nav');
+        
+        if (hamburger && mobileNav) {
+            hamburger.addEventListener('click', function() {
+                const isExpanded = this.getAttribute('aria-expanded') === 'true';
+                this.setAttribute('aria-expanded', !isExpanded);
+                mobileNav.classList.toggle('active');
+                
+                // Change icon between hamburger and X
+                const icon = hamburger.querySelector('i');
+                if (mobileNav.classList.contains('active')) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                } else {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            });
+
+            // Close mobile menu when clicking a link
+            document.querySelectorAll('.mobile-nav a').forEach(link => {
+                link.addEventListener('click', function() {
+                    mobileNav.classList.remove('active');
+                    hamburger.setAttribute('aria-expanded', 'false');
+                    const icon = hamburger.querySelector('i');
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                });
+            });
+        }
+
+        // Consolidated navigation highlighting
+        function updateActiveNav() {
+            const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+            const navLinks = document.querySelectorAll('.desktop-nav a, .mobile-nav a');
+            
+            navLinks.forEach(link => {
+                const linkPage = link.getAttribute('href');
+                if (currentPage === linkPage) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+        }
+
+        // Debounced resize handler
+        let resizeTimeout;
+        window.addEventListener('resize', function() {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(updateActiveNav, 100);
+        });
+
+        document.addEventListener('DOMContentLoaded', updateActiveNav);
+    </script>
+</body>
+</html>

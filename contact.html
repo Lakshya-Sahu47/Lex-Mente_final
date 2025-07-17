@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Lex Mente</title>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;600;700;900&family=Georgia&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --header-blue-gray: rgb(68, 71, 96);
+            --headings-gray: rgb(34, 34, 39);
+            --burgundy: #642c35;
+            --oxblood: #4B1E27;
+            --body-text: #212121;
+            --highlight: #a63e4b;
+            --white: #ffffff;
+            --linkedin-blue: #0077b5;
+            --instagram-purple: #e4405f;
+            --facebook-blue: #3b5998;
+        }
+        
+        body {
+            font-family: Georgia, serif;
+            font-size: 1rem;
+            line-height: 1.6;
+            color: var(--body-text);
+            margin: 0;
+            padding: 0;
+            background-color: var(--white);
+        }
+        
+        /* Header Styles */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            border-bottom: 1px solid rgba(100, 44, 53, 0.1);
+            background-color: var(--header-blue-gray);
+            position: relative;
+            height: 90px;
+            box-sizing: border-box;
+        }
+        
+        /* Premium Logo Styles */
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            position: relative;
+            height: 100%;
+        }
+        
+        .logo-img {
+            height: 75px;
+            width: auto;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .logo-text {
+            font-family: 'Merriweather', Georgia, serif;
+            font-size: 2.1rem;
+            font-weight: 900;
+            color: var(--white);
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            line-height: 1;
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+            -webkit-text-stroke: 0.5px rgba(255,255,255,0.4);
+            text-stroke: 0.5px rgba(255,255,255,0.4);
+            letter-spacing: 0.5px;
+        }
+        
+        .logo-text:hover {
+            transform: perspective(100px) translateZ(10px) scale(1.05);
+            color: var(--highlight);
+            text-shadow: 0 6px 12px rgba(166, 62, 75, 0.5);
+            -webkit-text-stroke: 0.5px rgba(255,255,255,0.6);
+            text-stroke: 0.5px rgba(255,255,255,0.6);
+        }
+        
+        .logo-text::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .logo-text:hover::before {
+            opacity: 1;
+        }
+        
+        .logo-text::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--highlight), rgba(166, 62, 75, 0.7), transparent);
+            transition: width 0.4s ease;
+        }
+        
+        .logo-text:hover::after {
+            width: 100%;
+        }
+        
+        .logo-tagline {
+            font-family: 'Merriweather', Georgia, serif;
+            font-size: 0.7rem;
+            font-weight: 400;
+            letter-spacing: 1.8px;
+            color: rgba(255,255,255,0.7);
+            margin-top: 0.5rem;
+            transition: all 0.4s ease;
+            text-transform: uppercase;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+        
+        .logo-container:hover .logo-tagline {
+            color: var(--highlight);
+            letter-spacing: 2px;
+            text-shadow: 0 2px 4px rgba(166, 62, 75, 0.3);
+        }
+        
+        .logo-container:hover .logo-img {
+            transform: perspective(500px) rotateX(10deg) rotateY(10deg) scale(1.05);
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+        }
+        
+        /* Hamburger Menu */
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 1.5rem;
+            padding: 0.5rem;
+        }
+        
+        /* Enhanced Desktop Navigation */
+        .desktop-nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1rem;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            align-items: center;
+        }
+        
+        .desktop-nav a {
+            font-family: 'Merriweather', Georgia, serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--white);
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            padding: 0.75rem 1rem;
+            letter-spacing: 0.5px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+        
+        .desktop-nav a:hover {
+            color: var(--highlight);
+            transform: translateY(-2px);
+            text-shadow: 0 2px 4px rgba(166, 62, 75, 0.3);
+            background: rgba(255,255,255,0.05);
+            border-radius: 4px;
+        }
+        
+        .desktop-nav a.active {
+            color: var(--highlight);
+            font-weight: 900;
+            letter-spacing: 0.8px;
+        }
+        
+        .desktop-nav a.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0.5rem;
+            left: 1rem;
+            width: calc(100% - 2rem);
+            height: 2px;
+            background-color: var(--highlight);
+            transform-origin: left center;
+            transform: scaleX(1);
+            transition: transform 0.3s ease;
+        }
+        
+        .desktop-nav a:not(.active)::after {
+            content: '';
+            position: absolute;
+            bottom: 0.5rem;
+            left: 1rem;
+            width: calc(100% - 2rem);
+            height: 1px;
+            background-color: rgba(255,255,255,0.2);
+            transform-origin: right center;
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .desktop-nav a:hover::after {
+            transform-origin: left center;
+            transform: scaleX(1);
+            background-color: var(--highlight);
+        }
+        
+        /* Enhanced Mobile Navigation */
+        .mobile-nav {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background-color: var(--header-blue-gray);
+            z-index: 1000;
+            padding: 1rem 0;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .mobile-nav ul {
+            flex-direction: column;
+            gap: 0.5rem;
+            padding: 0 2rem;
+            list-style: none;
+            margin: 0;
+        }
+        
+        .mobile-nav a {
+            display: block;
+            font-family: 'Merriweather', Georgia, serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--white);
+            text-decoration: none;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: color 0.3s;
+        }
+        
+        .mobile-nav a:last-child {
+            border-bottom: none;
+        }
+        
+        .mobile-nav a:hover {
+            color: var(--highlight);
+        }
+        
+        .mobile-nav a.active {
+            color: var(--highlight);
+            font-weight: 900;
+        }
+        
+        /* Remove underline from active link in mobile nav */
+        .mobile-nav a.active::after {
+            display: none;
+        }
+        
+        /* Main Content */
+        .main-container {
+            max-width: 900px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+        }
+        
+        h1, h2, h3 {
+            font-family: 'Merriweather', Georgia, serif;
+            color: var(--headings-gray);
+        }
+        
+        h1 {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 2rem;
+        }
+        
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 2.5rem 0 1rem;
+        }
+        
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .contact-card {
+            background-color: rgba(100, 44, 53, 0.05);
+            padding: 1.5rem;
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .contact-card h3 {
+            font-family: 'Merriweather', Georgia, serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--oxblood);
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .contact-card h3 i {
+            font-size: 1.1rem;
+            width: 1.5rem;
+            text-align: center;
+        }
+        
+        .contact-card p {
+            margin: 0.75rem 0 0 2.25rem;
+            line-height: 1.5;
+        }
+        
+        .contact-link {
+            color: var(--highlight);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .contact-link:hover {
+            text-decoration: underline;
+        }
+        
+        .response-time {
+            font-style: italic;
+            margin: 2.5rem 0;
+            padding: 1rem 1.5rem;
+            border-left: 3px solid var(--burgundy);
+            background-color: rgba(100, 44, 53, 0.03);
+        }
+
+        /* Footer Styles */
+        footer {
+            background-color: rgba(100, 44, 53, 0.05);
+            padding: 2rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--body-text);
+            text-decoration: none;
+            transition: all 0.3s;
+            font-family: Georgia, serif;
+        }
+        
+        .social-link:hover {
+            transform: translateY(-2px);
+        }
+        
+        .social-icon {
+            font-size: 1.5rem;
+            transition: all 0.3s;
+        }
+        
+        .social-link:hover .social-icon {
+            transform: scale(1.1);
+        }
+        
+        .linkedin-icon {
+            color: var(--linkedin-blue);
+        }
+        
+        .instagram-icon {
+            color: var(--instagram-purple);
+        }
+        
+        .facebook-icon {
+            color: var(--facebook-blue);
+        }
+        
+        .footer-text {
+            font-size: 0.875rem;
+            font-weight: 300;
+            margin-bottom: 1rem;
+            font-family: Georgia, serif;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .desktop-nav ul {
+                gap: 0.8rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            header {
+                flex-direction: row;
+                padding: 1rem;
+                height: auto;
+            }
+            
+            .logo-container {
+                margin-bottom: 0;
+                flex-direction: row;
+                text-align: left;
+            }
+            
+            .logo-img {
+                height: 65px;
+            }
+            
+            .logo-text {
+                font-size: 1.8rem;
+            }
+            
+            .logo-tagline {
+                font-size: 0.65rem;
+                letter-spacing: 1.5px;
+            }
+            
+            .desktop-nav {
+                display: none;
+            }
+            
+            .hamburger {
+                display: block;
+            }
+            
+            .mobile-nav.active {
+                display: block;
+            }
+            
+            h1 {
+                font-size: 1.75rem;
+            }
+            
+            h2 {
+                font-size: 1.25rem;
+            }
+
+            .social-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .main-container {
+                padding: 0 1rem;
+            }
+            
+            .logo-img {
+                height: 55px;
+            }
+            
+            .logo-text {
+                font-size: 1.5rem;
+            }
+            
+            .logo-tagline {
+                font-size: 0.6rem;
+                letter-spacing: 1.2px;
+            }
+            
+            .contact-info {
+                grid-template-columns: 1fr;
+            }
+            
+            .contact-card h3 {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <img src="logo.png" alt="Lex Mente Logo" class="logo-img">
+            <a href="index.html" class="logo-text">
+                LEX MENTE
+                <span class="logo-tagline">WHERE MINDS MEET LAW</span>
+            </a>
+        </div>
+        
+        <button class="hamburger" aria-label="Menu" aria-expanded="false" aria-controls="mobile-nav">
+            <i class="fas fa-bars"></i>
+        </button>
+        
+        <nav class="desktop-nav">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="journal.html">Journal</a></li>
+                <li><a href="call-for-papers.html">Call for Papers</a></li>
+                <li><a href="policy-guidelines.html">Policies & Guidelines</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="editorial-board.html">Editorial Board</a></li>
+                <li><a href="contact.html" class="active">Contact Us</a></li>
+            </ul>
+        </nav>
+        
+        <nav class="mobile-nav" id="mobile-nav">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="journal.html">Journal</a></li>
+                <li><a href="call-for-papers.html">Call for Papers</a></li>
+                <li><a href="policy-guidelines.html">Policies & Guidelines</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="editorial-board.html">Editorial Board</a></li>
+                <li><a href="contact.html" class="active">Contact Us</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main class="main-container">
+        <h1>Contact Us</h1>
+        
+        <p>For all queries, submissions, or feedback, feel free to reach out to us using the details below:</p>
+        
+        <div class="contact-info">
+            <div class="contact-card">
+                <h3><i class="fas fa-envelope"></i> General Email</h3>
+                <p><a href="mailto:support@lexmente.in" class="contact-link">support@lexmente.in</a></p>
+            </div>
+            
+            <div class="contact-card">
+                <h3><i class="fas fa-inbox"></i> Submissions Email</h3>
+                <p><a href="mailto:submissions@lexmente.in" class="contact-link">submissions@lexmente.in</a></p>
+            </div>
+            
+            <div class="contact-card">
+                <h3><i class="fas fa-phone"></i> Editorial Office</h3>
+                <p>+91 9235310124</p>
+            </div>
+            
+            <div class="contact-card">
+                <h3><i class="fas fa-clock"></i> Support Hours</h3>
+                <p>Monday to Friday<br>10:00 AM – 6:00 PM IST</p>
+            </div>
+        </div>
+        
+        <div class="response-time">
+            <strong>We aim to respond to all emails within 48 hours during working days.</strong>
+        </div>
+        
+        <p>For collaborations, media inquiries, or technical issues, kindly email us at <a href="mailto:support@lexmente.in" class="contact-link">support@lexmente.in</a></p>
+    </main>
+    
+    <footer>
+        <div class="social-links">
+            <a href="https://www.linkedin.com/company/lex-mente70/" class="social-link" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-linkedin social-icon linkedin-icon"></i>
+                <span>LinkedIn</span>
+            </a>
+            <a href="https://www.instagram.com/lexmente.in" class="social-link" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-instagram social-icon instagram-icon"></i>
+                <span>Instagram</span>
+            </a>
+            <a href="https://www.facebook.com/share/1Cza7tBuYo/" class="social-link" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-facebook social-icon facebook-icon"></i>
+                <span>Facebook</span>
+            </a>
+        </div>
+        <p class="footer-text">For queries, please contact: <a href="mailto:support@lexmente.in" style="color: var(--highlight);">support@lexmente.in</a></p>
+        <p class="footer-text">© 2025 Lex Mente. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Improved hamburger menu toggle with accessibility
+        const hamburger = document.querySelector('.hamburger');
+        const mobileNav = document.querySelector('.mobile-nav');
+        
+        if (hamburger && mobileNav) {
+            hamburger.addEventListener('click', function() {
+                const isExpanded = this.getAttribute('aria-expanded') === 'true';
+                this.setAttribute('aria-expanded', !isExpanded);
+                mobileNav.classList.toggle('active');
+                
+                // Change icon between hamburger and X
+                const icon = hamburger.querySelector('i');
+                if (mobileNav.classList.contains('active')) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                } else {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            });
+
+            // Close mobile menu when clicking a link
+            document.querySelectorAll('.mobile-nav a').forEach(link => {
+                link.addEventListener('click', function() {
+                    mobileNav.classList.remove('active');
+                    hamburger.setAttribute('aria-expanded', 'false');
+                    const icon = hamburger.querySelector('i');
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                });
+            });
+        }
+
+        // Consolidated navigation highlighting
+        function updateActiveNav() {
+            const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+            const navLinks = document.querySelectorAll('.desktop-nav a, .mobile-nav a');
+            
+            navLinks.forEach(link => {
+                const linkPage = link.getAttribute('href');
+                if (currentPage === linkPage) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+        }
+
+        // Debounced resize handler
+        let resizeTimeout;
+        window.addEventListener('resize', function() {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(updateActiveNav, 100);
+        });
+
+        document.addEventListener('DOMContentLoaded', updateActiveNav);
+    </script>
+</body>
+</html>
