@@ -584,6 +584,43 @@
             color: var(--highlight);
             font-family: 'Merriweather', Georgia, serif;
         }
+
+        /* Journal entries list styles */
+        .journal-entry {
+            border: 1px solid rgba(100, 44, 53, 0.1);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .journal-entry h3 {
+            margin-top: 0;
+            color: var(--burgundy);
+        }
+
+        .journal-entry p {
+            margin: 0.5rem 0;
+        }
+
+        .entry-meta {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 0.5rem;
+        }
+
+        .entry-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-size: 0.9rem;
+        }
+
+        .entry-meta i {
+            color: var(--highlight);
+        }
     </style>
 </head>
 <body>
@@ -603,7 +640,7 @@
         <nav class="desktop-nav" aria-label="Main navigation">
             <ul>
                 <li><a href="index.html">Home</a></li>
-                <li><a href="journal.html">Journal</a></li>
+                <li><a href="journal.html" class="active">Journal</a></li>
                 <li><a href="call-for-papers.html">Call for Papers</a></li>
                 <li><a href="policy-guidelines.html">Policies & Guidelines</a></li>
                 <li><a href="about.html">About Us</a></li>
@@ -615,7 +652,7 @@
         <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile navigation">
             <ul>
                 <li><a href="index.html">Home</a></li>
-                <li><a href="journal.html">Journal</a></li>
+                <li><a href="journal.html" class="active">Journal</a></li>
                 <li><a href="call-for-papers.html">Call for Papers</a></li>
                 <li><a href="policy-guidelines.html">Policies & Guidelines</a></li>
                 <li><a href="about.html">About Us</a></li>
@@ -669,24 +706,9 @@
             </tbody>
         </table>
 
-        <h2>Sample Article</h2>
-        <article class="article-sample">
-            <h3 class="article-title">Revisiting the Doctrine of Basic Structure</h3>
-            <div class="article-meta">Author: Arnav Sharma<br>Category: Research Article</div>
-            <div class="article-actions">
-                <a href="#" class="article-btn">
-                    <i class="far fa-file-pdf" aria-hidden="true"></i> Read PDF
-                </a>
-                <a href="#" class="article-btn">
-                    <i class="fas fa-quote-right" aria-hidden="true"></i> Cite
-                </a>
-            </div>
-        </article>
-
-        <div id="journal-entries-container" style="margin-top: 3rem;">
-            <h2>Recent Publications</h2>
-            <div id="journal-entries" class="article-sample">
-                <!-- Entries will be loaded here -->
+        <h2>Recent Publications</h2>
+        <div id="journal-entries-container">
+            <div id="journal-entries">
                 <div class="loading-text">
                     <div class="loading-spinner"></div>
                     Loading recent publications...
@@ -820,26 +842,38 @@
                         return;
                     }
                     
-                    container.innerHTML = entries.map(entry => `
-                        <div class="journal-entry" style="margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid rgba(100, 44, 53, 0.1);">
-                            <h3 style="margin-bottom: 0.5rem;">${entry.title}</h3>
-                            <p style="margin: 0.25rem 0;"><strong>Author:</strong> ${entry.author}</p>
-                            <p style="margin: 0.25rem 0;"><strong>Published:</strong> ${new Date(entry.publishDate).toLocaleDateString()}</p>
-                            <p style="margin: 0.25rem 0 0.5rem;"><strong>Volume:</strong> ${entry.volume}, <strong>Issue:</strong> ${entry.issue}</p>
-                            <div class="article-actions">
-                                <a href="${entry.filePath}" class="article-btn" target="_blank" rel="noopener noreferrer">
-                                    <i class="far fa-file-pdf" aria-hidden="true"></i> Download PDF
-                                </a>
-                                <a href="#" class="article-btn" onclick="alert('Citation format: ${entry.author}, "${entry.title}", ${entry.volume} Lex Mente ${entry.issue} (${new Date(entry.publishDate).getFullYear()})')">
-                                    <i class="fas fa-quote-right" aria-hidden="true"></i> Cite
-                                </a>
+                    container.innerHTML = entries.map(entry => {
+                        const publishDate = new Date(entry.publishDate);
+                        const formattedDate = publishDate.toLocaleDateString('en-IN', {
+                            day: 'numeric',
+                            month: 'long',
+                            year: 'numeric'
+                        });
+                        
+                        return `
+                            <div class="journal-entry">
+                                <h3>${entry.title}</h3>
+                                <div class="entry-meta">
+                                    <span><i class="fas fa-user"></i> ${entry.author}</span>
+                                    <span><i class="fas fa-calendar-alt"></i> ${formattedDate}</span>
+                                    <span><i class="fas fa-book"></i> Vol. ${entry.volume || '1'}, Issue ${entry.issue || '1'}</span>
+                                    ${entry.category ? `<span><i class="fas fa-tag"></i> ${entry.category}</span>` : ''}
+                                </div>
+                                <div class="article-actions">
+                                    <a href="${entry.filePath}" class="article-btn" target="_blank" rel="noopener noreferrer">
+                                        <i class="far fa-file-pdf" aria-hidden="true"></i> Download PDF
+                                    </a>
+                                    <a href="#" class="article-btn" onclick="alert('Citation format: ${entry.author}, "${entry.title}", ${entry.volume} Lex Mente ${entry.issue} (${publishDate.getFullYear()})')">
+                                        <i class="fas fa-quote-right" aria-hidden="true"></i> Cite
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-                    `).join('');
+                        `;
+                    }).join('');
                 } catch (error) {
                     console.error('Error loading journal entries:', error);
                     document.getElementById('journal-entries').innerHTML = 
-                        '<p>Failed to load journal entries. Please try again later.</p>';
+                        '<div class="journal-entry"><p>Failed to load journal entries. Please try again later.</p></div>';
                 }
             }
 
