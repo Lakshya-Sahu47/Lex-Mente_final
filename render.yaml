@@ -2,7 +2,9 @@ services:
   - type: web
     name: lex-mente
     env: node
-    buildCommand: npm install
+    buildCommand: |
+      npm install
+      npm rebuild
     startCommand: node server.js
     envVars:
       - key: DATABASE_URL

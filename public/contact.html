@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-IN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Contact Lex Mente - Student-led legal journal for submissions, queries, and collaborations">
     <title>Contact Us - Lex Mente</title>
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;600;700;900&family=Georgia&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -15,9 +16,9 @@
             --body-text: #212121;
             --highlight: #a63e4b;
             --white: #ffffff;
-            --linkedin-blue: #0077b5;
-            --instagram-purple: #e4405f;
-            --facebook-blue: #3b5998;
+            --linkedin-blue: #0a66c2;
+            --instagram-purple: #e1306c;
+            --facebook-blue: #1877f2;
         }
         
         body {
@@ -76,12 +77,14 @@
             letter-spacing: 0.5px;
         }
         
-        .logo-text:hover {
+        .logo-text:hover,
+        .logo-text:focus {
             transform: perspective(100px) translateZ(10px) scale(1.05);
             color: var(--highlight);
             text-shadow: 0 6px 12px rgba(166, 62, 75, 0.5);
             -webkit-text-stroke: 0.5px rgba(255,255,255,0.6);
             text-stroke: 0.5px rgba(255,255,255,0.6);
+            outline: none;
         }
         
         .logo-text::before {
@@ -96,7 +99,8 @@
             transition: opacity 0.3s ease;
         }
         
-        .logo-text:hover::before {
+        .logo-text:hover::before,
+        .logo-text:focus::before {
             opacity: 1;
         }
         
@@ -111,7 +115,8 @@
             transition: width 0.4s ease;
         }
         
-        .logo-text:hover::after {
+        .logo-text:hover::after,
+        .logo-text:focus::after {
             width: 100%;
         }
         
@@ -127,13 +132,15 @@
             text-shadow: 0 1px 2px rgba(0,0,0,0.3);
         }
         
-        .logo-container:hover .logo-tagline {
+        .logo-container:hover .logo-tagline,
+        .logo-container:focus-within .logo-tagline {
             color: var(--highlight);
             letter-spacing: 2px;
             text-shadow: 0 2px 4px rgba(166, 62, 75, 0.3);
         }
         
-        .logo-container:hover .logo-img {
+        .logo-container:hover .logo-img,
+        .logo-container:focus-within .logo-img {
             transform: perspective(500px) rotateX(10deg) rotateY(10deg) scale(1.05);
             filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
         }
@@ -173,12 +180,14 @@
             text-shadow: 0 1px 2px rgba(0,0,0,0.2);
         }
         
-        .desktop-nav a:hover {
+        .desktop-nav a:hover,
+        .desktop-nav a:focus {
             color: var(--highlight);
             transform: translateY(-2px);
             text-shadow: 0 2px 4px rgba(166, 62, 75, 0.3);
             background: rgba(255,255,255,0.05);
             border-radius: 4px;
+            outline: none;
         }
         
         .desktop-nav a.active {
@@ -213,7 +222,8 @@
             transition: transform 0.3s ease;
         }
         
-        .desktop-nav a:hover::after {
+        .desktop-nav a:hover::after,
+        .desktop-nav a:focus::after {
             transform-origin: left center;
             transform: scaleX(1);
             background-color: var(--highlight);
@@ -256,8 +266,10 @@
             border-bottom: none;
         }
         
-        .mobile-nav a:hover {
+        .mobile-nav a:hover,
+        .mobile-nav a:focus {
             color: var(--highlight);
+            outline: none;
         }
         
         .mobile-nav a.active {
@@ -341,8 +353,10 @@
             font-weight: 500;
         }
         
-        .contact-link:hover {
+        .contact-link:hover,
+        .contact-link:focus {
             text-decoration: underline;
+            outline: none;
         }
         
         .response-time {
@@ -378,8 +392,10 @@
             font-family: Georgia, serif;
         }
         
-        .social-link:hover {
+        .social-link:hover,
+        .social-link:focus {
             transform: translateY(-2px);
+            outline: none;
         }
         
         .social-icon {
@@ -387,7 +403,8 @@
             transition: all 0.3s;
         }
         
-        .social-link:hover .social-icon {
+        .social-link:hover .social-icon,
+        .social-link:focus .social-icon {
             transform: scale(1.1);
         }
         
@@ -495,12 +512,19 @@
                 font-size: 1.1rem;
             }
         }
+
+        /* Focus styles for accessibility */
+        a:focus,
+        button:focus {
+            outline: 2px solid var(--highlight);
+            outline-offset: 2px;
+        }
     </style>
 </head>
 <body>
     <header>
         <div class="logo-container">
-            <img src="logo.png" alt="Lex Mente Logo" class="logo-img">
+            <img src="logo.png" alt="Lex Mente Logo" class="logo-img" loading="lazy">
             <a href="index.html" class="logo-text">
                 LEX MENTE
                 <span class="logo-tagline">WHERE MINDS MEET LAW</span>
@@ -511,7 +535,7 @@
             <i class="fas fa-bars"></i>
         </button>
         
-        <nav class="desktop-nav">
+        <nav class="desktop-nav" aria-label="Main navigation">
             <ul>
                 <li><a href="index.html">Home</a></li>
                 <li><a href="journal.html">Journal</a></li>
@@ -523,7 +547,7 @@
             </ul>
         </nav>
         
-        <nav class="mobile-nav" id="mobile-nav">
+        <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile navigation">
             <ul>
                 <li><a href="index.html">Home</a></li>
                 <li><a href="journal.html">Journal</a></li>
@@ -591,61 +615,43 @@
 
     <script>
         // Improved hamburger menu toggle with accessibility
-        const hamburger = document.querySelector('.hamburger');
-        const mobileNav = document.querySelector('.mobile-nav');
-        
-        if (hamburger && mobileNav) {
-            hamburger.addEventListener('click', function() {
-                const isExpanded = this.getAttribute('aria-expanded') === 'true';
-                this.setAttribute('aria-expanded', !isExpanded);
-                mobileNav.classList.toggle('active');
-                
-                // Change icon between hamburger and X
-                const icon = hamburger.querySelector('i');
-                if (mobileNav.classList.contains('active')) {
-                    icon.classList.remove('fa-bars');
-                    icon.classList.add('fa-times');
-                } else {
-                    icon.classList.remove('fa-times');
-                    icon.classList.add('fa-bars');
-                }
-            });
-
-            // Close mobile menu when clicking a link
-            document.querySelectorAll('.mobile-nav a').forEach(link => {
-                link.addEventListener('click', function() {
-                    mobileNav.classList.remove('active');
-                    hamburger.setAttribute('aria-expanded', 'false');
-                    const icon = hamburger.querySelector('i');
-                    icon.classList.remove('fa-times');
-                    icon.classList.add('fa-bars');
-                });
-            });
-        }
-
-        // Consolidated navigation highlighting
-        function updateActiveNav() {
-            const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-            const navLinks = document.querySelectorAll('.desktop-nav a, .mobile-nav a');
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburger = document.querySelector('.hamburger');
+            const mobileNav = document.querySelector('.mobile-nav');
             
-            navLinks.forEach(link => {
+            if (hamburger && mobileNav) {
+                hamburger.addEventListener('click', function() {
+                    const isExpanded = this.getAttribute('aria-expanded') === 'true';
+                    this.setAttribute('aria-expanded', !isExpanded);
+                    mobileNav.classList.toggle('active');
+                    
+                    // Change icon between hamburger and X
+                    const icon = this.querySelector('i');
+                    icon.classList.toggle('fa-bars');
+                    icon.classList.toggle('fa-times');
+                });
+
+                // Close mobile menu when clicking a link
+                document.querySelectorAll('.mobile-nav a').forEach(link => {
+                    link.addEventListener('click', function() {
+                        mobileNav.classList.remove('active');
+                        hamburger.setAttribute('aria-expanded', 'false');
+                        const icon = hamburger.querySelector('i');
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                    });
+                });
+            }
+
+            // Highlight current page in navigation
+            const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+            document.querySelectorAll('nav a').forEach(link => {
                 const linkPage = link.getAttribute('href');
                 if (currentPage === linkPage) {
                     link.classList.add('active');
-                } else {
-                    link.classList.remove('active');
                 }
             });
-        }
-
-        // Debounced resize handler
-        let resizeTimeout;
-        window.addEventListener('resize', function() {
-            clearTimeout(resizeTimeout);
-            resizeTimeout = setTimeout(updateActiveNav, 100);
         });
-
-        document.addEventListener('DOMContentLoaded', updateActiveNav);
     </script>
 </body>
 </html>

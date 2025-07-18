@@ -11,6 +11,14 @@ const fs = require('fs');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Verify path-to-regexp is working
+try {
+  const { pathToRegexp } = require('path-to-regexp');
+  console.log('path-to-regexp loaded successfully');
+} catch (err) {
+  console.error('Error loading path-to-regexp:', err);
+}
+
 // PostgreSQL Connection Pool
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,

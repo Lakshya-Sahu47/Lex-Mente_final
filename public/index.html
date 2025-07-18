@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Lex Mente - A student-led legal journal promoting academic excellence and legal discourse">
     <title>Lex Mente - Student-Led Legal Journal</title>
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;600;700;900&family=Georgia&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -567,7 +568,7 @@
         
         <nav class="desktop-nav" aria-label="Main navigation">
             <ul>
-                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html" class="active">Home</a></li>
                 <li><a href="journal.html">Journal</a></li>
                 <li><a href="call-for-papers.html">Call for Papers</a></li>
                 <li><a href="policy-guidelines.html">Policies & Guidelines</a></li>
@@ -579,7 +580,7 @@
         
         <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile navigation">
             <ul>
-                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html" class="active">Home</a></li>
                 <li><a href="journal.html">Journal</a></li>
                 <li><a href="call-for-papers.html">Call for Papers</a></li>
                 <li><a href="policy-guidelines.html">Policies & Guidelines</a></li>
@@ -638,38 +639,37 @@
 
     <script>
         // Hamburger menu toggle
-        const hamburger = document.querySelector('.hamburger');
-        const mobileNav = document.querySelector('.mobile-nav');
-        
-        hamburger.addEventListener('click', function() {
-            const isExpanded = hamburger.getAttribute('aria-expanded') === 'true';
-            mobileNav.classList.toggle('active');
-            hamburger.setAttribute('aria-expanded', !isExpanded);
-            
-            // Change icon between hamburger and X
-            const icon = hamburger.querySelector('i');
-            if (mobileNav.classList.contains('active')) {
-                icon.classList.replace('fa-bars', 'fa-times');
-            } else {
-                icon.classList.replace('fa-times', 'fa-bars');
-            }
-        });
-
-        // Close mobile menu when clicking a link
-        document.querySelectorAll('.mobile-nav a').forEach(link => {
-            link.addEventListener('click', function() {
-                mobileNav.classList.remove('active');
-                hamburger.setAttribute('aria-expanded', 'false');
-                hamburger.querySelector('i').classList.replace('fa-times', 'fa-bars');
-            });
-        });
-
-        // Highlight current page in navigation
         document.addEventListener('DOMContentLoaded', function() {
-            const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-            const navLinks = document.querySelectorAll('nav a');
+            const hamburger = document.querySelector('.hamburger');
+            const mobileNav = document.querySelector('.mobile-nav');
             
-            navLinks.forEach(link => {
+            if (hamburger && mobileNav) {
+                hamburger.addEventListener('click', function() {
+                    const isExpanded = this.getAttribute('aria-expanded') === 'true';
+                    this.setAttribute('aria-expanded', !isExpanded);
+                    mobileNav.classList.toggle('active');
+                    
+                    // Change icon between hamburger and X
+                    const icon = this.querySelector('i');
+                    icon.classList.toggle('fa-bars');
+                    icon.classList.toggle('fa-times');
+                });
+
+                // Close mobile menu when clicking a link
+                document.querySelectorAll('.mobile-nav a').forEach(link => {
+                    link.addEventListener('click', function() {
+                        mobileNav.classList.remove('active');
+                        hamburger.setAttribute('aria-expanded', 'false');
+                        const icon = hamburger.querySelector('i');
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                    });
+                });
+            }
+
+            // Highlight current page in navigation
+            const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+            document.querySelectorAll('nav a').forEach(link => {
                 const linkPage = link.getAttribute('href');
                 if (currentPage === linkPage) {
                     link.classList.add('active');
@@ -677,7 +677,7 @@
             });
 
             // Show fallback content for Instagram
-            showFallbackContent();
+            setTimeout(showFallbackContent, 1500);
         });
 
         // Instagram fallback content
@@ -685,16 +685,17 @@
             const loader = document.querySelector('.loader');
             const instaContent = document.getElementById('insta-post-content');
             
-            loader.style.display = 'none';
-            instaContent.innerHTML = `
-                <p>Supreme Court Clarifies: Right to Protest Cannot Infringe on Others' Fundamental Rights</p>
-                <p><small>Follow us on Instagram for the latest legal updates</small></p>
-            `;
+            if (loader && instaContent) {
+                loader.style.display = 'none';
+                instaContent.innerHTML = `
+                    <p>Supreme Court Clarifies: Right to Protest Cannot Infringe on Others' Fundamental Rights</p>
+                    <p><small>Follow us on Instagram for the latest legal updates</small></p>
+                `;
+            }
         }
 
         // For production, you would implement a proper Instagram API integration
         // This would require server-side code due to CORS and authentication requirements
-        // Here's a placeholder function for that implementation
         async function fetchInstagramPosts() {
             try {
                 // This would be replaced with actual API call to your backend
