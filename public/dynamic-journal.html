@@ -2,25 +2,169 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Recent Journal Publications</title>
+  <title>Recent Journal Publications | Lex Mente</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
-    body { font-family: Arial, sans-serif; margin: 2rem; background: #f8f9fa; }
-    h1 { text-align: center; margin-bottom: 1.5rem; }
-    .entry {
-      background: #fff; border: 1px solid #ccc; border-radius: 4px;
-      margin-bottom: 1rem; padding: 1rem;
+    :root {
+      --primary-color: #642c35; /* Burgundy */
+      --secondary-color: #a63e4b; /* Highlight */
+      --text-color: #212121;
+      --light-gray: #f8f9fa;
+      --medium-gray: #e9ecef;
+      --dark-gray: #495057;
+      --white: #ffffff;
+      --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s ease;
     }
-    .entry h3 { margin: 0 0 6px 0; }
-    .entry-meta { font-size: 0.95em; color: #555; margin-bottom: 6px;}
-    .entry a { color: #007bff; text-decoration: none; }
-    .entry a:hover { text-decoration: underline; }
+
+    body {
+      font-family: 'Open Sans', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: var(--light-gray);
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    h1 {
+      font-family: 'Merriweather', serif;
+      text-align: center;
+      margin-bottom: 2rem;
+      color: var(--primary-color);
+      font-weight: 700;
+      font-size: 2.2rem;
+      position: relative;
+      padding-bottom: 1rem;
+    }
+
+    h1::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 3px;
+      background: var(--secondary-color);
+    }
+
+    #journal-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .entry {
+      background: var(--white);
+      border-radius: 8px;
+      padding: 1.5rem;
+      box-shadow: var(--box-shadow);
+      transition: var(--transition);
+      border: 1px solid var(--medium-gray);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .entry:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .entry h3 {
+      font-family: 'Merriweather', serif;
+      margin: 0 0 0.75rem 0;
+      color: var(--primary-color);
+      font-size: 1.3rem;
+      font-weight: 700;
+    }
+
+    .entry-meta {
+      font-size: 0.9rem;
+      color: var(--dark-gray);
+      margin-bottom: 1rem;
+      line-height: 1.5;
+    }
+
+    .entry-meta b {
+      color: var(--text-color);
+      font-weight: 600;
+    }
+
+    .entry a {
+      display: inline-flex;
+      align-items: center;
+      color: var(--secondary-color);
+      text-decoration: none;
+      font-weight: 600;
+      margin-top: auto;
+      transition: var(--transition);
+      width: fit-content;
+    }
+
+    .entry a:hover {
+      color: var(--primary-color);
+      text-decoration: underline;
+    }
+
+    .entry a i {
+      margin-right: 0.5rem;
+    }
+
+    .loading-message,
+    .empty-message,
+    .error-message {
+      text-align: center;
+      font-size: 1.1rem;
+      color: var(--dark-gray);
+      padding: 2rem;
+      grid-column: 1 / -1;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .container {
+        padding: 1.5rem;
+      }
+
+      h1 {
+        font-size: 1.8rem;
+      }
+
+      #journal-list {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 1rem;
+      }
+
+      h1 {
+        font-size: 1.5rem;
+      }
+
+      .entry {
+        padding: 1.2rem;
+      }
+    }
   </style>
 </head>
 <body>
-  <h1>Recent Journal Publications</h1>
-  <div id="journal-list">
-    <p>Loading journal entries...</p>
+  <div class="container">
+    <h1>Recent Journal Publications</h1>
+    <div id="journal-list">
+      <p class="loading-message">Loading journal entries...</p>
+    </div>
   </div>
   <script>
     fetch('/api/journal-entries')
@@ -28,23 +172,23 @@
       .then(entries => {
         const container = document.getElementById('journal-list');
         if (!entries.length) {
-          container.innerHTML = '<p>No journal entries available yet.</p>';
+          container.innerHTML = '<p class="empty-message">No journal entries available yet.</p>';
           return;
         }
         container.innerHTML = entries.map(entry => `
           <div class="entry">
             <h3>${entry.title}</h3>
             <div class="entry-meta">
-             <b>Author:</b> ${entry.author} | <b>Category:</b> ${entry.category ?? '––'}<br/>
-             <b>Volume:</b> ${entry.volume} | <b>Issue:</b> ${entry.issue} 
-             | <b>Publish Date:</b> ${new Date(entry.publishDate).toLocaleDateString()}
+              <b>Author:</b> ${entry.author} | <b>Category:</b> ${entry.category ?? '––'}<br/>
+              <b>Volume:</b> ${entry.volume} | <b>Issue:</b> ${entry.issue} 
+              | <b>Publish Date:</b> ${new Date(entry.publishDate).toLocaleDateString()}
             </div>
-            <a href="${entry.filePath}" target="_blank">📄 View PDF</a>
+            <a href="${entry.filePath}" target="_blank"><i class="fas fa-file-pdf"></i> View PDF</a>
           </div>
         `).join('');
       })
       .catch(() => {
-        document.getElementById('journal-list').innerHTML = '<p>Error loading journal entries.</p>';
+        document.getElementById('journal-list').innerHTML = '<p class="error-message">Error loading journal entries. Please try again later.</p>';
       });
   </script>
 </body>
