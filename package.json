@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "node lex-mente-backend/server.js",
+    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -11,8 +11,11 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "dotenv": "^16.6.1",
     "express": "^5.1.0",
     "multer": "^2.0.1",
-    "pg": "^8.16.3"
+    "pg": "^8.16.3",
+    "dotenv": "^16.0.0"
   }
 }
+
