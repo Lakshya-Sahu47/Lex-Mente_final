@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-IN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,9 +15,9 @@
             --body-text: #212121;
             --highlight: #a63e4b;
             --white: #ffffff;
-            --linkedin-blue: #0077b5;
-            --instagram-purple: #e4405f;
-            --facebook-blue: #3b5998;
+            --linkedin-blue: #0a66c2;
+            --instagram-purple: #e1306c;
+            --facebook-blue: #1877f2;
         }
         
         body {
@@ -294,38 +294,71 @@
             margin: 2.5rem 0 1rem;
         }
         
-        p {
+        h3 {
+            font-size: 1.25rem;
+            font-weight: 500;
+            margin: 1.5rem 0 0.5rem;
+        }
+        
+        p, li {
             margin-bottom: 1rem;
             font-family: Georgia, serif;
         }
         
         .mission-statement {
             font-style: italic;
-            font-size: 1.1rem;
             border-left: 3px solid var(--burgundy);
             padding-left: 1.5rem;
             margin: 2rem 0;
-            font-family: 'Merriweather', Georgia, serif;
-        }
-        
-        .mobile-version {
-            display: none;
             background-color: rgba(100, 44, 53, 0.05);
             padding: 1.5rem;
             border-radius: 8px;
+            border-left: none;
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+        
+        .values-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
             margin: 2rem 0;
         }
         
-        .mobile-version p {
-            margin-bottom: 1rem;
+        .value-card {
+            flex: 1 1 300px;
+            background-color: rgba(100, 44, 53, 0.05);
+            padding: 1.5rem;
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         
-        .mobile-toggle {
+        .value-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .value-card h3 {
+            color: var(--burgundy);
+            margin-top: 0;
+        }
+        
+        .btn {
             display: inline-block;
-            color: var(--highlight);
+            padding: 0.75rem 1.5rem;
+            font-size: 0.875rem;
             font-weight: 500;
-            cursor: pointer;
+            background-color: var(--burgundy);
+            color: var(--white);
+            border-radius: 4px;
+            text-decoration: none;
+            transition: background-color 0.3s;
             margin-top: 1rem;
+            font-family: 'Merriweather', Georgia, serif;
+        }
+         
+        .btn:hover {
+            background-color: var(--highlight);
         }
 
         /* Footer Styles */
@@ -422,14 +455,6 @@
                 display: none;
             }
             
-            .desktop-version {
-                display: none;
-            }
-            
-            .mobile-version {
-                display: block;
-            }
-            
             .hamburger {
                 display: block;
             }
@@ -444,6 +469,10 @@
             
             h2 {
                 font-size: 1.25rem;
+            }
+            
+            h3 {
+                font-size: 1.1rem;
             }
 
             .social-links {
@@ -468,6 +497,10 @@
             .logo-tagline {
                 font-size: 0.6rem;
                 letter-spacing: 1.2px;
+            }
+            
+            .value-card {
+                flex: 1 1 100%;
             }
         }
     </style>
@@ -514,26 +547,35 @@
     <main class="main-container">
         <h1>About Lex Mente</h1>
         
-        <div class="desktop-version">
-            <p>Lex Mente is an innovative legal research platform dedicated to advancing rigorous legal research and thought leadership in the discipline of law.</p>
-            
-            <div class="mission-statement">
-                We are committed to academic integrity, editorial independence, and inclusive representation in legal scholarship under the All Rights Reserved policy.
-            </div>
-            
-            <p>The journal publishes high-quality contributions in the form of research articles, case commentaries, and policy notes, with a focus on clarity, relevance, and critical analysis.</p>
-            
-            <h2>Our Review Process</h2>
-            <p>Every submission received undergoes a double-blind peer review process and is assessed on parameters of originality, analytical depth, and academic value. Lex Mente operates under the All Rights Reserved policy.</p>
-            
-            <h2>Our Vision</h2>
-            <p>Driven by a diverse and visionary editorial team, Lex Mente aspires to become a trusted name in student-led legal publishing. Alongside our journal issues, we aim to organize legal writing competitions, policy workshops, and academic collaborations to promote research-oriented legal culture in India and beyond.</p>
+        <p>Lex Mente is an innovative legal research platform dedicated to advancing rigorous legal research and thought leadership in the discipline of law. We serve as a bridge between academic theory and practical legal applications, fostering a community of legal scholars, practitioners, and students.</p>
+        
+        <div class="mission-statement">
+            <p>We are committed to academic integrity, editorial independence, and inclusive representation in legal scholarship. Our mission is to provide a platform for emerging legal minds to contribute meaningfully to the discourse on contemporary legal issues.</p>
         </div>
         
-        <div class="mobile-version">
-            <p>Lex Mente is an innovative legal research platform dedicated to advancing rigorous legal research and thought leadership in the discipline of law.</p>
-            <span class="mobile-toggle">👉 Tap to read more</span>
+        <h2>Our Core Values</h2>
+        <div class="values-container">
+            <div class="value-card">
+                <h3>Academic Excellence</h3>
+                <p>We maintain the highest standards of scholarly work, ensuring all published content meets rigorous academic criteria through our double-blind peer review process.</p>
+            </div>
+            <div class="value-card">
+                <h3>Innovation</h3>
+                <p>We encourage forward-thinking legal analysis that challenges conventional perspectives and explores emerging areas of law.</p>
+            </div>
+            <div class="value-card">
+                <h3>Inclusivity</h3>
+                <p>We welcome diverse perspectives from students, academics, and practitioners across all legal disciplines and jurisdictions.</p>
+            </div>
         </div>
+        
+        <h2>Our Review Process</h2>
+        <p>Every submission received undergoes a rigorous double-blind peer review process and is assessed on parameters of originality, analytical depth, and academic value. Our editorial board comprises distinguished legal scholars and practitioners who ensure the quality and relevance of published content.</p>
+        
+        <h2>Our Vision</h2>
+        <p>Driven by a diverse and visionary editorial team, Lex Mente aspires to become a trusted name in student-led legal publishing. Alongside our journal issues, we aim to organize legal writing competitions, policy workshops, and academic collaborations that foster legal scholarship and professional development.</p>
+        
+        <a href="editorial-board.html" class="btn">Meet Our Editorial Board</a>
     </main>
     
     <footer>
@@ -560,44 +602,34 @@
         const hamburger = document.querySelector('.hamburger');
         const mobileNav = document.querySelector('.mobile-nav');
         
-        hamburger.addEventListener('click', function() {
-            const isExpanded = mobileNav.classList.toggle('active');
-            hamburger.setAttribute('aria-expanded', isExpanded);
-            
-            // Change icon between hamburger and X
-            const icon = hamburger.querySelector('i');
-            if (isExpanded) {
-                icon.classList.remove('fa-bars');
-                icon.classList.add('fa-times');
-            } else {
-                icon.classList.remove('fa-times');
-                icon.classList.add('fa-bars');
-            }
-        });
-
-        // Close mobile menu when clicking a link
-        document.querySelectorAll('.mobile-nav a').forEach(link => {
-            link.addEventListener('click', function() {
-                mobileNav.classList.remove('active');
-                hamburger.setAttribute('aria-expanded', 'false');
-                hamburger.querySelector('i').classList.remove('fa-times');
-                hamburger.querySelector('i').classList.add('fa-bars');
+        if (hamburger && mobileNav) {
+            hamburger.addEventListener('click', function() {
+                const isExpanded = this.getAttribute('aria-expanded') === 'true';
+                this.setAttribute('aria-expanded', !isExpanded);
+                mobileNav.classList.toggle('active');
+                
+                // Change icon between hamburger and X
+                const icon = hamburger.querySelector('i');
+                if (mobileNav.classList.contains('active')) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                } else {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
             });
-        });
 
-        // Toggle for mobile version
-        document.querySelector('.mobile-toggle').addEventListener('click', function() {
-            const desktopVersion = document.querySelector('.desktop-version');
-            const mobileToggle = document.querySelector('.mobile-toggle');
-            
-            if (desktopVersion.style.display === 'none' || desktopVersion.style.display === '') {
-                desktopVersion.style.display = 'block';
-                mobileToggle.textContent = '👆 Tap to show less';
-            } else {
-                desktopVersion.style.display = 'none';
-                mobileToggle.textContent = '👉 Tap to read more';
-            }
-        });
+            // Close mobile menu when clicking a link
+            document.querySelectorAll('.mobile-nav a').forEach(link => {
+                link.addEventListener('click', function() {
+                    mobileNav.classList.remove('active');
+                    hamburger.setAttribute('aria-expanded', 'false');
+                    const icon = hamburger.querySelector('i');
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                });
+            });
+        }
 
         // Enhanced navigation highlighting
         function updateActiveNav() {
@@ -614,19 +646,8 @@
             });
         }
 
-        document.addEventListener('DOMContentLoaded', function() {
-            updateActiveNav();
-            
-            // Initialize mobile content state
-            if (window.innerWidth <= 768) {
-                document.querySelector('.desktop-version').style.display = 'none';
-            }
-        });
-
-        // Update navigation on window resize
-        window.addEventListener('resize', function() {
-            updateActiveNav();
-        });
+        document.addEventListener('DOMContentLoaded', updateActiveNav);
+        window.addEventListener('resize', updateActiveNav);
     </script>
 </body>
 </html>

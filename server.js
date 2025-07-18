@@ -49,14 +49,9 @@ const upload = multer({
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'public')));
 
-// Serve static files from LexMente directory (only in development)
-if (process.env.NODE_ENV !== 'production') {
-    const staticPath = path.join('C:', 'Users', 'Nehal Sahu', 'Desktop', 'LexMente');
-    app.use(express.static(staticPath));
-    console.log(`Serving static files from: ${staticPath}`);
-}
+// Serve static files from public directory
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Serve uploaded PDFs with proper headers
 app.use('/uploads', express.static(UPLOADS_DIR, {
@@ -127,6 +122,11 @@ app.get('/api/journal-entries', async (req, res) => {
             error: error.message 
         });
     }
+});
+
+// Route all other requests to index.html for client-side routing
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 // Error handling middleware

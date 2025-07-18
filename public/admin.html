@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Upload Journal Entry</title>
+    <title>Admin - Upload Journal Entry | Lex Mente</title>
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;600;700;900&family=Georgia&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -15,6 +15,7 @@
             --highlight: #a63e4b;
             --white: #ffffff;
         }
+        
         body {
             font-family: Georgia, serif;
             line-height: 1.6;
@@ -22,195 +23,275 @@
             margin: 0;
             padding: 0;
             background-color: var(--white);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
+        
+        header {
+            background-color: var(--header-blue-gray);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .logo-img {
+            height: 60px;
+            width: auto;
+        }
+        
+        .logo-text {
+            font-family: 'Merriweather', Georgia, serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--white);
+            text-decoration: none;
+        }
+        
         .container {
             max-width: 800px;
-            margin: 50px auto;
-            padding: 20px;
+            margin: 2rem auto;
+            padding: 2rem;
             background-color: #f9f9f9;
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            flex-grow: 1;
         }
+        
         h1 {
             font-family: 'Merriweather', Georgia, serif;
             color: var(--headings-gray);
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 2rem;
         }
+        
         form {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 1.5rem;
         }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
         label {
             font-family: 'Merriweather', Georgia, serif;
             font-weight: 600;
             color: var(--headings-gray);
-            margin-bottom: 5px;
-            display: block;
         }
+        
         input[type="text"],
         input[type="date"],
         input[type="file"],
-        input[type="number"] {
+        input[type="number"],
+        select {
             width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
             border-radius: 4px;
+            font-family: Georgia, serif;
             font-size: 1rem;
-            box-sizing: border-box;
         }
+        
         input[type="file"] {
-            padding: 5px;
+            padding: 0.5rem;
         }
+        
         button {
-            padding: 12px 20px;
+            padding: 0.75rem 1.5rem;
             background-color: var(--burgundy);
             color: var(--white);
             border: none;
             border-radius: 4px;
             font-family: 'Merriweather', Georgia, serif;
             font-size: 1.1rem;
-            font-weight: 700;
+            font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s;
+            margin-top: 1rem;
         }
+        
         button:hover {
             background-color: var(--highlight);
         }
+        
         .message {
-            margin-top: 20px;
-            padding: 10px;
+            margin-top: 1.5rem;
+            padding: 1rem;
             border-radius: 4px;
             text-align: center;
+            display: none;
         }
+        
         .message.success {
             background-color: #d4edda;
             color: #155724;
             border: 1px solid #c3e6cb;
         }
+        
         .message.error {
             background-color: #f8d7da;
             color: #721c24;
             border: 1px solid #f5c6cb;
         }
+        
+        footer {
+            background-color: rgba(100, 44, 53, 0.05);
+            padding: 1.5rem;
+            text-align: center;
+            margin-top: auto;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                margin: 1rem;
+                padding: 1.5rem;
+            }
+            
+            header {
+                padding: 1rem;
+            }
+            
+            .logo-text {
+                font-size: 1.5rem;
+            }
+            
+            .logo-img {
+                height: 50px;
+            }
+        }
     </style>
 </head>
 <body>
+    <header>
+        <div class="logo-container">
+            <img src="logo.png" alt="Lex Mente Logo" class="logo-img">
+            <a href="index.html" class="logo-text">LEX MENTE</a>
+        </div>
+    </header>
+    
     <div class="container">
         <h1>Upload New Journal Entry</h1>
         <form id="uploadForm">
-            <div>
-                <label for="title">Article Title:</label>
+            <div class="form-group">
+                <label for="title">Article Title</label>
                 <input type="text" id="title" name="title" required>
             </div>
-            <div>
-                <label for="author">Author Name:</label>
+            
+            <div class="form-group">
+                <label for="author">Author Name</label>
                 <input type="text" id="author" name="author" required>
             </div>
-            <div>
-                <label for="category">Category:</label>
+            
+            <div class="form-group">
+                <label for="category">Category</label>
                 <input type="text" id="category" name="category" placeholder="e.g., Research Article, Case Comment">
             </div>
-            <div>
-                <label for="volume">Volume:</label>
+            
+            <div class="form-group">
+                <label for="volume">Volume</label>
                 <input type="number" id="volume" name="volume" min="1" required>
             </div>
-            <div>
-                <label for="issue">Issue:</label>
+            
+            <div class="form-group">
+                <label for="issue">Issue</label>
                 <input type="number" id="issue" name="issue" min="1" required>
             </div>
-            <div>
-                <label for="publishDate">Publish Date:</label>
+            
+            <div class="form-group">
+                <label for="publishDate">Publish Date</label>
                 <input type="date" id="publishDate" name="publishDate" required>
             </div>
-            <div>
-                <label for="journalPdf">Upload PDF:</label>
+            
+            <div class="form-group">
+                <label for="journalPdf">Upload PDF</label>
                 <input type="file" id="journalPdf" name="journalPdf" accept="application/pdf" required>
             </div>
+            
             <button type="submit">Upload Journal</button>
         </form>
-        <div id="message" class="message" style="display: none;"></div>
+        
+        <div id="message" class="message"></div>
     </div>
+    
+    <footer>
+        <p>&copy; 2025 Lex Mente. All rights reserved.</p>
+    </footer>
 
     <script>
         document.getElementById('uploadForm').addEventListener('submit', async function(event) {
             event.preventDefault();
-
-            // Format the date to YYYY-MM-DD before sending
+            
+            // Format date before sending
             const dateInput = document.getElementById('publishDate');
             const dateValue = new Date(dateInput.value);
-            const formattedDate = dateValue.toISOString().split('T')[0];
-            dateInput.value = formattedDate;
-
+            dateInput.value = dateValue.toISOString().split('T')[0];
+            
             const form = event.target;
             const formData = new FormData(form);
             const messageDiv = document.getElementById('message');
+            
+            // Reset message state
             messageDiv.style.display = 'none';
             messageDiv.className = 'message';
-
+            messageDiv.textContent = '';
+            
             try {
-                // Client-side validation for all required fields
-                const requiredFields = [
-                    'title', 'author', 'volume', 
-                    'issue', 'publishDate', 'journalPdf'
-                ];
-                
+                // Client-side validation
+                const requiredFields = ['title', 'author', 'volume', 'issue', 'publishDate', 'journalPdf'];
                 const missingFields = requiredFields.filter(field => {
-                    if (field === 'journalPdf') {
-                        return !form[field].files[0];
-                    }
-                    return !form[field].value.trim();
+                    return field === 'journalPdf' 
+                        ? !form[field].files[0] 
+                        : !form[field].value.trim();
                 });
-
-                if (missingFields.length > 0) {
+                
+                if (missingFields.length) {
                     throw new Error(`Please fill all required fields: ${missingFields.join(', ')}`);
                 }
-
-                // Additional validation for numbers
+                
                 if (form.volume.value < 1 || form.issue.value < 1) {
                     throw new Error('Volume and Issue numbers must be at least 1');
                 }
-
+                
+                // Submit to server
                 const response = await fetch('/upload-journal', {
                     method: 'POST',
                     body: formData
                 });
-
-                // First check if response is OK
+                
                 if (!response.ok) {
-                    // Try to parse error as JSON, fallback to text if that fails
-                    let errorData;
-                    try {
-                        errorData = await response.json();
-                    } catch (e) {
-                        errorData = { message: await response.text() };
-                    }
+                    const errorData = await response.json().catch(() => ({ message: await response.text() }));
                     throw new Error(errorData.message || `Upload failed with status ${response.status}`);
                 }
-
-                // If response is OK, parse as JSON
+                
                 const result = await response.json();
-
+                
+                // Show success message
                 messageDiv.classList.add('success');
                 messageDiv.textContent = result.message || 'Journal uploaded successfully!';
                 form.reset();
                 
             } catch (error) {
-                console.error('Error:', error);
+                console.error('Upload error:', error);
+                
+                // Show error message
                 messageDiv.classList.add('error');
+                messageDiv.textContent = error.message.replace(/^Error:\s*/i, '') || 
+                    'An unexpected error occurred. Please try again.';
                 
-                // Format error message to be more user-friendly
-                let errorMessage = error.message || 'An unexpected error occurred. Please try again.';
-                
-                // Remove any server-side error prefixes if present
-                errorMessage = errorMessage.replace(/^Error:\s*/i, '');
-                
-                messageDiv.textContent = errorMessage;
             } finally {
                 messageDiv.style.display = 'block';
                 
-                // Scroll to message if it's an error
                 if (messageDiv.classList.contains('error')) {
                     messageDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }
