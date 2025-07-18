@@ -1,3 +1,7 @@
+// Add this to load environment variables first
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
 const express = require('express');
 const multer = require('multer');
 const path = require('path');
@@ -9,11 +13,8 @@ const PORT = process.env.PORT || 3000;
 
 // PostgreSQL Connection Pool
 const pool = new Pool({
-    user: 'postgres',
-    host: 'localhost',
-    database: 'lexmente_db',
-    password: 'lakshya',
-    port: 5432,
+  connectionString: process.env.DATABASE_URL,
+  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false
 });
 
 // Ensure the uploads directory exists
@@ -50,8 +51,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Serve static files from LexMente directory
-app.use(express.static(path.join('C:', 'Users', 'Nehal Sahu', 'Desktop', 'LexMente')));
+// Serve static files from LexMente directory (only in development)
+if (process.env.NODE_ENV !== 'production') {
+    const staticPath = path.join('C:', 'Users', 'Nehal Sahu', 'Desktop', 'LexMente');
+    app.use(express.static(staticPath));
+    console.log(`Serving static files from: ${staticPath}`);
+}
 
 // Serve uploaded PDFs with proper headers
 app.use('/uploads', express.static(UPLOADS_DIR, {
@@ -136,5 +141,4 @@ app.use((err, req, res, next) => {
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
     console.log(`Upload directory: ${UPLOADS_DIR}`);
-    console.log(`Serving static files from: ${path.join('C:', 'Users', 'Nehal Sahu', 'Desktop', 'LexMente')}`);
 });
