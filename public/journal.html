@@ -470,6 +470,24 @@
             outline-offset: 2px;
         }
 
+        /* View All Button */
+        .view-all-btn {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            background-color: var(--burgundy);
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-family: 'Merriweather', Georgia, serif;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+
+        .view-all-btn:hover {
+            background-color: var(--highlight);
+        }
+
         /* Responsive Design */
         @media (max-width: 992px) {
             .desktop-nav ul {
@@ -558,31 +576,6 @@
             .article-meta {
                 font-size: 0.85rem;
             }
-        }
-
-        /* Loading spinner styles */
-        .loading-spinner {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(166, 62, 75, 0.3);
-            border-radius: 50%;
-            border-top-color: var(--highlight);
-            animation: spin 1s ease-in-out infinite;
-            margin-right: 8px;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        .loading-text {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem;
-            color: var(--highlight);
-            font-family: 'Merriweather', Georgia, serif;
         }
 
         /* Journal entries list styles */
@@ -674,44 +667,72 @@
                     <th>Volume</th>
                     <th>Issue</th>
                     <th>Date</th>
-                    <th>Article Title</th>
-                    <th>Author</th>
-                    <th>Download</th>
+                    <th>Status</th>
                 </tr>
             </thead>
-            <tbody id="dynamic-volumes-body">
-                <!-- Static entries will remain, dynamic articles will be added here -->
+            <tbody>
                 <tr>
                     <td>Volume 1</td>
                     <td>Issue 1</td>
                     <td>June 2025</td>
-                    <td colspan="3" class="loading-text">
-                        <div class="loading-spinner"></div>
-                        Loading articles...
-                    </td>
+                    <td>Published</td>
                 </tr>
                 <tr>
                     <td>Volume 1</td>
                     <td>Issue 2</td>
                     <td>December 2025</td>
-                    <td colspan="3"></td>
+                    <td>In Progress</td>
                 </tr>
                 <tr>
                     <td>Volume 2</td>
                     <td>Issue 1</td>
+                    <td>June 2026</td>
                     <td class="coming-soon">Coming Soon</td>
-                    <td colspan="3"></td>
                 </tr>
-                <!-- Dynamic articles will be inserted below these static rows -->
             </tbody>
         </table>
 
+        <a href="dynamic-journal.html" class="view-all-btn">
+            <i class="fas fa-book-open"></i> View All Articles
+        </a>
+
         <h2>Recent Publications</h2>
-        <div id="journal-entries-container">
-            <div id="journal-entries">
-                <div class="loading-text">
-                    <div class="loading-spinner"></div>
-                    Loading recent publications...
+        <div id="journal-entries">
+            <div class="journal-entry">
+                <h3>Judicial Interpretation of Environmental Laws in India</h3>
+                <div class="entry-meta">
+                    <span><i class="fas fa-user"></i> Priya Sharma</span>
+                    <span><i class="fas fa-calendar-alt"></i> 15 June 2025</span>
+                    <span><i class="fas fa-book"></i> Vol. 1, Issue 1</span>
+                    <span><i class="fas fa-tag"></i> Environmental Law</span>
+                </div>
+                <p>An analysis of landmark judgments shaping India's environmental jurisprudence and their impact on sustainable development.</p>
+                <div class="article-actions">
+                    <a href="#" class="article-btn">
+                        <i class="far fa-file-pdf" aria-hidden="true"></i> Download PDF
+                    </a>
+                    <a href="#" class="article-btn" onclick="alert('Citation format: Priya Sharma, "Judicial Interpretation of Environmental Laws in India", 1 Lex Mente 1 (2025)')">
+                        <i class="fas fa-quote-right" aria-hidden="true"></i> Cite
+                    </a>
+                </div>
+            </div>
+
+            <div class="journal-entry">
+                <h3>Data Privacy Regulations in the Digital Age</h3>
+                <div class="entry-meta">
+                    <span><i class="fas fa-user"></i> Arjun Patel</span>
+                    <span><i class="fas fa-calendar-alt"></i> 10 June 2025</span>
+                    <span><i class="fas fa-book"></i> Vol. 1, Issue 1</span>
+                    <span><i class="fas fa-tag"></i> Cyber Law</span>
+                </div>
+                <p>Examining the adequacy of current data protection laws in addressing challenges posed by emerging technologies.</p>
+                <div class="article-actions">
+                    <a href="#" class="article-btn">
+                        <i class="far fa-file-pdf" aria-hidden="true"></i> Download PDF
+                    </a>
+                    <a href="#" class="article-btn" onclick="alert('Citation format: Arjun Patel, "Data Privacy Regulations in the Digital Age", 1 Lex Mente 1 (2025)')">
+                        <i class="fas fa-quote-right" aria-hidden="true"></i> Cite
+                    </a>
                 </div>
             </div>
         </div>
@@ -775,111 +796,6 @@
                     link.classList.add('active');
                 }
             });
-
-            // Function to fetch and display dynamic articles in the table
-            async function fetchAndDisplayDynamicArticles() {
-                const dynamicVolumesBody = document.getElementById('dynamic-volumes-body');
-
-                try {
-                    const response = await fetch('/api/journal-entries');
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                    const articles = await response.json();
-
-                    // Clear loading message
-                    const loadingCells = document.querySelectorAll('.loading-text');
-                    loadingCells.forEach(cell => cell.remove());
-
-                    if (articles.length === 0) {
-                        const noArticlesRow = document.createElement('tr');
-                        noArticlesRow.innerHTML = `<td colspan="6">No dynamic articles published yet.</td>`;
-                        dynamicVolumesBody.appendChild(noArticlesRow);
-                        return;
-                    }
-
-                    // Append each dynamic article as a new row in the table
-                    articles.forEach(article => {
-                        const articleRow = document.createElement('tr');
-                        const publishDate = new Date(article.publishDate).toLocaleDateString('en-US', { 
-                            year: 'numeric', 
-                            month: 'long', 
-                            day: 'numeric' 
-                        });
-
-                        articleRow.innerHTML = `
-                            <td>Volume ${article.volume || '1'}</td>
-                            <td>Issue ${article.issue || '1'}</td>
-                            <td>${publishDate}</td>
-                            <td>${article.title}</td>
-                            <td>${article.author}</td>
-                            <td>
-                                <a href="${article.filePath}" class="article-btn small-btn" target="_blank" rel="noopener noreferrer">
-                                    <i class="far fa-file-pdf" aria-hidden="true"></i> PDF
-                                </a>
-                            </td>
-                        `;
-                        dynamicVolumesBody.appendChild(articleRow);
-                    });
-
-                } catch (error) {
-                    console.error('Error fetching dynamic articles:', error);
-                    const errorRow = document.createElement('tr');
-                    errorRow.innerHTML = `<td colspan="6">Failed to load dynamic articles. Please try again later.</td>`;
-                    dynamicVolumesBody.appendChild(errorRow);
-                }
-            }
-
-            // Function to load journal entries in the dedicated section
-            async function loadJournalEntries() {
-                try {
-                    const container = document.getElementById('journal-entries');
-                    const response = await fetch('/api/journal-entries');
-                    const entries = await response.json();
-                    
-                    if (entries.length === 0) {
-                        container.innerHTML = '<p>No journal entries available at this time.</p>';
-                        return;
-                    }
-                    
-                    container.innerHTML = entries.map(entry => {
-                        const publishDate = new Date(entry.publishDate);
-                        const formattedDate = publishDate.toLocaleDateString('en-IN', {
-                            day: 'numeric',
-                            month: 'long',
-                            year: 'numeric'
-                        });
-                        
-                        return `
-                            <div class="journal-entry">
-                                <h3>${entry.title}</h3>
-                                <div class="entry-meta">
-                                    <span><i class="fas fa-user"></i> ${entry.author}</span>
-                                    <span><i class="fas fa-calendar-alt"></i> ${formattedDate}</span>
-                                    <span><i class="fas fa-book"></i> Vol. ${entry.volume || '1'}, Issue ${entry.issue || '1'}</span>
-                                    ${entry.category ? `<span><i class="fas fa-tag"></i> ${entry.category}</span>` : ''}
-                                </div>
-                                <div class="article-actions">
-                                    <a href="${entry.filePath}" class="article-btn" target="_blank" rel="noopener noreferrer">
-                                        <i class="far fa-file-pdf" aria-hidden="true"></i> Download PDF
-                                    </a>
-                                    <a href="#" class="article-btn" onclick="alert('Citation format: ${entry.author}, "${entry.title}", ${entry.volume} Lex Mente ${entry.issue} (${publishDate.getFullYear()})')">
-                                        <i class="fas fa-quote-right" aria-hidden="true"></i> Cite
-                                    </a>
-                                </div>
-                            </div>
-                        `;
-                    }).join('');
-                } catch (error) {
-                    console.error('Error loading journal entries:', error);
-                    document.getElementById('journal-entries').innerHTML = 
-                        '<div class="journal-entry"><p>Failed to load journal entries. Please try again later.</p></div>';
-                }
-            }
-
-            // Call both functions to load content
-            fetchAndDisplayDynamicArticles();
-            loadJournalEntries();
         });
     </script>
 </body>

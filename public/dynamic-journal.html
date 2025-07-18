@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Recent Journal Publications</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2rem; background: #f8f9fa; }
+    h1 { text-align: center; margin-bottom: 1.5rem; }
+    .entry {
+      background: #fff; border: 1px solid #ccc; border-radius: 4px;
+      margin-bottom: 1rem; padding: 1rem;
+    }
+    .entry h3 { margin: 0 0 6px 0; }
+    .entry-meta { font-size: 0.95em; color: #555; margin-bottom: 6px;}
+    .entry a { color: #007bff; text-decoration: none; }
+    .entry a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <h1>Recent Journal Publications</h1>
+  <div id="journal-list">
+    <p>Loading journal entries...</p>
+  </div>
+  <script>
+    fetch('/api/journal-entries')
+      .then(response => response.json())
+      .then(entries => {
+        const container = document.getElementById('journal-list');
+        if (!entries.length) {
+          container.innerHTML = '<p>No journal entries available yet.</p>';
+          return;
+        }
+        container.innerHTML = entries.map(entry => `
+          <div class="entry">
+            <h3>${entry.title}</h3>
+            <div class="entry-meta">
+             <b>Author:</b> ${entry.author} | <b>Category:</b> ${entry.category ?? '––'}<br/>
+             <b>Volume:</b> ${entry.volume} | <b>Issue:</b> ${entry.issue} 
+             | <b>Publish Date:</b> ${new Date(entry.publishDate).toLocaleDateString()}
+            </div>
+            <a href="${entry.filePath}" target="_blank">📄 View PDF</a>
+          </div>
+        `).join('');
+      })
+      .catch(() => {
+        document.getElementById('journal-list').innerHTML = '<p>Error loading journal entries.</p>';
+      });
+  </script>
+</body>
+</html>
