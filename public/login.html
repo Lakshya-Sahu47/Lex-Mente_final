@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Journal Archive - Lex Mente</title>
+    <meta name="description" content="Lex Mente - Login to access exclusive legal journal content">
+    <title>Login | Lex Mente - Student-Led Legal Journal</title>
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;600;700;900&family=Georgia&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -17,6 +18,8 @@
             --linkedin-blue: #0a66c2;
             --instagram-purple: #e1306c;
             --facebook-blue: #1877f2;
+            --error-red: #d32f2f;
+            --success-green: #388e3c;
         }
         
         body {
@@ -267,131 +270,101 @@
             color: var(--highlight);
         }
         
-        /* Remove underline from active link in mobile nav */
-        .mobile-nav a.active::after {
-            display: none;
-        }
-        
-        /* Main Content */
-        .main-container {
-            max-width: 900px;
+        /* Login Section */
+        .login-container {
+            max-width: 500px;
             margin: 3rem auto;
-            padding: 0 2rem;
-        }
-        
-        h1, h2, h3 {
-            font-family: 'Merriweather', Georgia, serif;
-            color: var(--headings-gray);
-        }
-        
-        h1 {
-            font-size: 2rem;
-            font-weight: bold;
-            margin-bottom: 2rem;
-        }
-        
-        h2 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin: 2.5rem 0 1.5rem;
-        }
-        
-        p {
-            font-family: Georgia, serif;
-        }
-        
-        .volumes-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 2rem 0;
-        }
-        
-        .volumes-table th {
-            font-family: 'Merriweather', Georgia, serif;
-            font-weight: 600;
-            text-align: left;
-            padding: 1rem;
-            border-bottom: 2px solid var(--burgundy);
-            color: var(--headings-gray);
-        }
-        
-        .volumes-table td {
-            font-family: Georgia, serif;
-            padding: 1rem;
-            border-bottom: 1px solid rgba(100, 44, 53, 0.1);
-        }
-        
-        .volumes-table tr:last-child td {
-            border-bottom: none;
-        }
-        
-        .coming-soon {
-            color: var(--highlight);
-            font-style: italic;
-        }
-        
-        .article-sample {
+            padding: 2rem;
             background-color: rgba(100, 44, 53, 0.05);
-            padding: 1.5rem;
             border-radius: 8px;
-            margin: 2rem 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
         
-        .article-title {
+        .login-title {
             font-family: 'Merriweather', Georgia, serif;
-            font-size: 1.25rem;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--burgundy);
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .form-label {
+            font-family: 'Merriweather', Georgia, serif;
+            font-size: 1rem;
             font-weight: 600;
             color: var(--headings-gray);
-            margin-bottom: 0.5rem;
         }
         
-        .article-meta {
+        .form-input {
+            padding: 0.75rem 1rem;
             font-family: Georgia, serif;
-            font-size: 0.9rem;
-            color: var(--body-text);
-            margin-bottom: 1rem;
+            font-size: 1rem;
+            border: 1px solid rgba(100, 44, 53, 0.3);
+            border-radius: 4px;
+            transition: all 0.3s;
         }
         
-        .article-actions {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
+        .form-input:focus {
+            outline: none;
+            border-color: var(--burgundy);
+            box-shadow: 0 0 0 2px rgba(100, 44, 53, 0.2);
         }
         
-        .article-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1rem;
+        .login-btn {
+            padding: 0.75rem;
             font-family: 'Merriweather', Georgia, serif;
-            font-size: 0.875rem;
-            font-weight: 600;
+            font-size: 1rem;
+            font-weight: 700;
             background-color: var(--burgundy);
             color: var(--white);
+            border: none;
             border-radius: 4px;
-            text-decoration: none;
-            transition: background-color 0.3s;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 1rem;
         }
         
-        .article-btn:hover,
-        .article-btn:focus {
+        .login-btn:hover,
+        .login-btn:focus {
             background-color: var(--highlight);
             outline: none;
         }
-
-        .small-btn {
-            padding: 0.3rem 0.6rem;
-            font-size: 0.8rem;
+        
+        .message {
+            padding: 0.75rem 1rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            font-family: Georgia, serif;
+            text-align: center;
+            display: none;
         }
         
-        .journal-cover {
-            width: 100%;
-            max-width: 300px;
-            margin: 2rem auto;
-            display: block;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        .error-message {
+            background-color: rgba(211, 47, 47, 0.1);
+            color: var(--error-red);
+            border: 1px solid rgba(211, 47, 47, 0.3);
         }
-
+        
+        .success-message {
+            background-color: rgba(56, 142, 60, 0.1);
+            color: var(--success-green);
+            border: 1px solid rgba(56, 142, 60, 0.3);
+        }
+        
         /* Footer Styles */
         footer {
             background-color: rgba(100, 44, 53, 0.05);
@@ -451,7 +424,7 @@
             font-weight: 300;
             margin-bottom: 1rem;
         }
-
+        
         .contact-email {
             color: var(--highlight);
             text-decoration: none;
@@ -461,31 +434,6 @@
         .contact-email:focus {
             text-decoration: underline;
             outline: none;
-        }
-
-        /* Focus styles for accessibility */
-        a:focus,
-        button:focus {
-            outline: 2px solid var(--highlight);
-            outline-offset: 2px;
-        }
-
-        /* View All Button */
-        .view-all-btn {
-            display: inline-block;
-            margin-top: 1rem;
-            padding: 0.5rem 1rem;
-            background-color: var(--burgundy);
-            color: white;
-            text-decoration: none;
-            border-radius: 4px;
-            font-family: 'Merriweather', Georgia, serif;
-            font-weight: 600;
-            transition: background-color 0.3s;
-        }
-
-        .view-all-btn:hover {
-            background-color: var(--highlight);
         }
 
         /* Responsive Design */
@@ -526,30 +474,17 @@
                 display: block;
             }
             
-            .volumes-table {
-                display: block;
-                overflow-x: auto;
+            .login-container {
+                margin: 2rem 1.5rem;
+                padding: 1.5rem;
             }
             
-            h1 {
-                font-size: 1.75rem;
-            }
-            
-            h2 {
-                font-size: 1.25rem;
-            }
-
-            .social-links {
-                flex-direction: column;
-                gap: 1rem;
+            .login-title {
+                font-size: 1.6rem;
             }
         }
         
         @media (max-width: 480px) {
-            .main-container {
-                padding: 0 1rem;
-            }
-            
             .logo-img {
                 height: 55px;
             }
@@ -563,56 +498,22 @@
                 letter-spacing: 1.2px;
             }
             
-            .volumes-table th,
-            .volumes-table td {
-                padding: 0.75rem 0.5rem;
-                font-size: 0.9rem;
+            .login-container {
+                margin: 1.5rem 1rem;
+                padding: 1.25rem;
             }
             
-            .article-title {
-                font-size: 1.1rem;
-            }
-            
-            .article-meta {
-                font-size: 0.85rem;
+            .login-title {
+                font-size: 1.4rem;
             }
         }
 
-        /* Journal entries list styles */
-        .journal-entry {
-            border: 1px solid rgba(100, 44, 53, 0.1);
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-        }
-
-        .journal-entry h3 {
-            margin-top: 0;
-            color: var(--burgundy);
-        }
-
-        .journal-entry p {
-            margin: 0.5rem 0;
-        }
-
-        .entry-meta {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-            margin-bottom: 0.5rem;
-        }
-
-        .entry-meta span {
-            display: flex;
-            align-items: center;
-            gap: 0.3rem;
-            font-size: 0.9rem;
-        }
-
-        .entry-meta i {
-            color: var(--highlight);
+        /* Focus styles for accessibility */
+        a:focus,
+        button:focus,
+        input:focus {
+            outline: 2px solid var(--highlight);
+            outline-offset: 2px;
         }
     </style>
 </head>
@@ -633,90 +534,51 @@
         <nav class="desktop-nav" aria-label="Main navigation">
             <ul>
                 <li><a href="index.html">Home</a></li>
-                <li><a href="journal.html" class="active">Journal</a></li>
+                <li><a href="journal.html">Journal</a></li>
                 <li><a href="call-for-papers.html">Call for Papers</a></li>
                 <li><a href="policy-guidelines.html">Policies & Guidelines</a></li>
                 <li><a href="about.html">About Us</a></li>
                 <li><a href="editorial-board.html">Editorial Board</a></li>
                 <li><a href="contact.html">Contact Us</a></li>
+                <li><a href="login.html" class="active">Login</a></li>
             </ul>
         </nav>
         
         <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile navigation">
             <ul>
                 <li><a href="index.html">Home</a></li>
-                <li><a href="journal.html" class="active">Journal</a></li>
+                <li><a href="journal.html">Journal</a></li>
                 <li><a href="call-for-papers.html">Call for Papers</a></li>
                 <li><a href="policy-guidelines.html">Policies & Guidelines</a></li>
                 <li><a href="about.html">About Us</a></li>
                 <li><a href="editorial-board.html">Editorial Board</a></li>
                 <li><a href="contact.html">Contact Us</a></li>
+                <li><a href="login.html" class="active">Login</a></li>
             </ul>
         </nav>
     </header>
     
-    <main id="main-content" class="main-container">
-        <h1>Journal Archive</h1>
-        
-        <p>Explore our published volumes featuring peer-reviewed legal scholarship across diverse areas of law.</p>
-        
-        <h2 ondblclick="window.location.href='login.html'">Volumes & Issues</h2>
-        <table class="volumes-table">
-            <thead>
-                <tr>
-                    <th>Volume</th>
-                    <th>Issue</th>
-                    <th>Date</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Volume 1</td>
-                    <td>Issue 1</td>
-                    <td>June 2025</td>
-                    <td>Published</td>
-                </tr>
-                <tr>
-                    <td>Volume 1</td>
-                    <td>Issue 2</td>
-                    <td>December 2025</td>
-                    <td>In Progress</td>
-                </tr>
-                <tr>
-                    <td>Volume 2</td>
-                    <td>Issue 1</td>
-                    <td>June 2026</td>
-                    <td class="coming-soon">Coming Soon</td>
-                </tr>
-            </tbody>
-        </table>
-
-        <a href="dynamic-journal.html" class="view-all-btn">
-            <i class="fas fa-book-open"></i> View All Articles
-        </a>
-
-        <h2>Sample Article</h2>
-        <div id="journal-entries">
-            <div class="journal-entry">
-                <h3>The Constitutionality of Preventive Detention Laws</h3>
-                <div class="entry-meta">
-                    <span><i class="fas fa-user"></i> Rohan Mehta</span>
-                    <span><i class="fas fa-calendar-alt"></i> 20 June 2025</span>
-                    <span><i class="fas fa-book"></i> Vol. 1, Issue 1</span>
-                    <span><i class="fas fa-tag"></i> Constitutional Law</span>
+    <main id="main-content">
+        <section class="login-container">
+            <h1 class="login-title">Editorial Board Login</h1>
+            
+            <div id="error-message" class="message error-message"></div>
+            <div id="success-message" class="message success-message"></div>
+            
+            <form id="login-form" class="login-form">
+                <div class="form-group">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" id="username" class="form-input" required>
                 </div>
-                <p>A critical assessment of how preventive detention statutes align with constitutional safeguards of liberty and due process in India.</p>
-                <div class="article-actions">
-                    <a href="#" class="article-btn">
-                        <i class="far fa-file-pdf" aria-hidden="true"></i> Download PDF
-                    </a>
-                    <a href="#" class="article-btn" onclick="alert('Citation format: Rohan Mehta, "The Constitutionality of Preventive Detention Laws", 1 Lex Mente 1 (2025)')">
-                        <i class="fas fa-quote-right" aria-hidden="true"></i> Cite
-                    </a>
+                
+                <div class="form-group">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" id="password" class="form-input" required>
                 </div>
-            </div>
-        </div>
+                
+                <button type="submit" class="login-btn">Login</button>
+            </form>
+        </section>
     </main>
     
     <footer>
@@ -744,39 +606,72 @@
             const hamburger = document.querySelector('.hamburger');
             const mobileNav = document.querySelector('.mobile-nav');
             
-            hamburger.addEventListener('click', function() {
-                const isExpanded = hamburger.getAttribute('aria-expanded') === 'true';
-                mobileNav.classList.toggle('active');
-                hamburger.setAttribute('aria-expanded', !isExpanded);
-                
-                // Change icon between hamburger and X
-                const icon = hamburger.querySelector('i');
-                if (mobileNav.classList.contains('active')) {
-                    icon.classList.replace('fa-bars', 'fa-times');
-                } else {
-                    icon.classList.replace('fa-times', 'fa-bars');
-                }
-            });
-
-            // Close mobile menu when clicking a link
-            document.querySelectorAll('.mobile-nav a').forEach(link => {
-                link.addEventListener('click', function() {
-                    mobileNav.classList.remove('active');
-                    hamburger.setAttribute('aria-expanded', 'false');
-                    hamburger.querySelector('i').classList.replace('fa-times', 'fa-bars');
+            if (hamburger && mobileNav) {
+                hamburger.addEventListener('click', function() {
+                    const isExpanded = this.getAttribute('aria-expanded') === 'true';
+                    this.setAttribute('aria-expanded', !isExpanded);
+                    mobileNav.classList.toggle('active');
+                    
+                    // Change icon between hamburger and X
+                    const icon = this.querySelector('i');
+                    icon.classList.toggle('fa-bars');
+                    icon.classList.toggle('fa-times');
                 });
-            });
+
+                // Close mobile menu when clicking a link
+                document.querySelectorAll('.mobile-nav a').forEach(link => {
+                    link.addEventListener('click', function() {
+                        mobileNav.classList.remove('active');
+                        hamburger.setAttribute('aria-expanded', 'false');
+                        const icon = hamburger.querySelector('i');
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                    });
+                });
+            }
 
             // Highlight current page in navigation
             const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-            const navLinks = document.querySelectorAll('nav a');
-            
-            navLinks.forEach(link => {
+            document.querySelectorAll('nav a').forEach(link => {
                 const linkPage = link.getAttribute('href');
                 if (currentPage === linkPage) {
                     link.classList.add('active');
                 }
             });
+
+            // Login form handling
+            const loginForm = document.getElementById('login-form');
+            const errorMessage = document.getElementById('error-message');
+            const successMessage = document.getElementById('success-message');
+            
+            if (loginForm) {
+                loginForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const username = document.getElementById('username').value;
+                    const password = document.getElementById('password').value;
+                    
+                    // Hide any previous messages
+                    errorMessage.style.display = 'none';
+                    successMessage.style.display = 'none';
+                    
+                    // Check credentials
+                    if (username === 'lakshya' && password === '123456') {
+                        // Successful login
+                        successMessage.textContent = 'Login successful! Redirecting...';
+                        successMessage.style.display = 'block';
+                        
+                        // Redirect after a short delay
+                        setTimeout(function() {
+                            window.location.href = 'dynamic-journal.html';
+                        }, 1000);
+                    } else {
+                        // Failed login
+                        errorMessage.textContent = 'Invalid username or password. Please try again.';
+                        errorMessage.style.display = 'block';
+                    }
+                });
+            }
         });
     </script>
 </body>
