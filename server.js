@@ -10,7 +10,7 @@ const { Pool } = require('pg');
 const fs = require('fs');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5432;
 
 // Verify path-to-regexp is working
 try {
