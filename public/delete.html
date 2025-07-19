@@ -111,6 +111,18 @@
       background-color: var(--highlight);
     }
 
+    .journal-meta {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .journal-meta p {
+      margin: 0.25rem 0;
+      font-size: 0.9rem;
+    }
+
     footer {
       background-color: rgba(100, 44, 53, 0.05);
       text-align: center;
@@ -135,6 +147,10 @@
 
       #journal-list {
         padding: 1.5rem;
+      }
+
+      .journal-meta {
+        grid-template-columns: 1fr;
       }
     }
   </style>
@@ -162,46 +178,72 @@
 
   <script>
     async function loadJournals() {
-      const response = await fetch('/api/journals');
-      const journals = await response.json();
+      try {
+        const response = await fetch('/api/journals');
+        if (!response.ok) {
+          throw new Error('Failed to fetch journals');
+        }
+        const journals = await response.json();
 
-      const container = document.getElementById('journal-list');
-      if (journals.length === 0) {
-        container.innerHTML = '<p>No uploaded journals found.</p>';
-        return;
-      }
+        const container = document.getElementById('journal-list');
+        if (journals.length === 0) {
+          container.innerHTML = '<p>No uploaded journals found.</p>';
+          return;
+        }
 
-      journals.forEach(journal => {
-        const journalDiv = document.createElement('div');
-        journalDiv.id = `journal-${journal.id}`;
-        journalDiv.innerHTML = `
-          <div class="journal-item">
-            <p><strong>${journal.title}</strong>${journal.author ? ' by ' + journal.author : ''}</p>
-            ${journal.filename ? `<p>File: ${journal.filename}</p>` : ''}
+        container.innerHTML = ''; // Clear existing content
+        journals.forEach(journal => {
+          const journalDiv = document.createElement('div');
+          journalDiv.id = `journal-${journal.id}`;
+          journalDiv.className = 'journal-item';
+          
+          const publishDate = journal.publishDate ? new Date(journal.publishDate).toLocaleDateString() : 'Not specified';
+          
+          journalDiv.innerHTML = `
+            <p><strong>${journal.title || 'Untitled'}</strong>${journal.author ? ' by ' + journal.author : ''}</p>
+            <div class="journal-meta">
+              ${journal.category ? `<p><strong>Category:</strong> ${journal.category}</p>` : ''}
+              ${journal.volume ? `<p><strong>Volume:</strong> ${journal.volume}</p>` : ''}
+              ${journal.issue ? `<p><strong>Issue:</strong> ${journal.issue}</p>` : ''}
+              <p><strong>Published:</strong> ${publishDate}</p>
+              ${journal.filename ? `<p><strong>File:</strong> ${journal.filename}</p>` : ''}
+            </div>
             <button onclick="deleteJournal('${journal.id}')">Delete</button>
-          </div>
-        `;
-        container.appendChild(journalDiv);
-      });
+          `;
+          container.appendChild(journalDiv);
+        });
+      } catch (error) {
+        console.error('Error loading journals:', error);
+        document.getElementById('journal-list').innerHTML = 
+          '<p>Error loading journals. Please try again later.</p>';
+      }
     }
 
     async function deleteJournal(id) {
       if (!confirm("Are you sure you want to delete this journal?")) return;
 
       try {
-        const res = await fetch(`/api/journals/${id}`, { method: 'DELETE' });
-        if (res.ok) {
-          document.getElementById(`journal-${id}`).remove();
+        const response = await fetch(`/api/journals/${id}`, { 
+          method: 'DELETE' 
+        });
+        
+        if (response.ok) {
+          const journalElement = document.getElementById(`journal-${id}`);
+          if (journalElement) {
+            journalElement.remove();
+          }
+          
           // Refresh the list if empty
-          if (document.getElementById('journal-list').children.length === 0) {
-            document.getElementById('journal-list').innerHTML = '<p>No uploaded journals found.</p>';
+          const container = document.getElementById('journal-list');
+          if (container.children.length === 0) {
+            container.innerHTML = '<p>No uploaded journals found.</p>';
           }
         } else {
-          alert("Failed to delete journal.");
+          throw new Error('Failed to delete journal');
         }
       } catch (error) {
-        alert("An error occurred while deleting the journal.");
-        console.error(error);
+        console.error('Error deleting journal:', error);
+        alert("An error occurred while deleting the journal. Please try again.");
       }
     }
 

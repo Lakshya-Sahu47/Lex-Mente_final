@@ -281,7 +281,7 @@
     </div>
   </div>
   <script>
-    fetch('/api/journals')
+    fetch('/api/journal-entries')
       .then(response => response.json())
       .then(entries => {
         const container = document.getElementById('journal-list');
@@ -293,9 +293,9 @@
           <div class="entry">
             <h3>${entry.title}</h3>
             <div class="entry-meta">
-              <b>Author:</b> ${entry.author} | <b>Category:</b> ${entry.category ?? '––'}<br/>
-              <b>Volume:</b> ${entry.volume} | <b>Issue:</b> ${entry.issue} 
-              | <b>Publish Date:</b> ${new Date(entry.publishDate).toLocaleDateString()}
+              <b>Author:</b> ${entry.author || '––'} | <b>Category:</b> ${entry.category || '––'}<br/>
+              <b>Volume:</b> ${entry.volume || '––'} | <b>Issue:</b> ${entry.issue || '––'} 
+              | <b>Publish Date:</b> ${entry.publishDate ? new Date(entry.publishDate).toLocaleDateString() : '––'}
             </div>
             <a href="/api/journal-entries/${entry.id}/pdf" target="_blank"><i class="fas fa-file-pdf"></i> View PDF</a>
           </div>

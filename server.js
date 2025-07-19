@@ -89,11 +89,12 @@ app.post('/upload-journal', upload.single('journalPdf'), async (req, res) => {
   }
 });
 
-// API Endpoint to Get All Journal Entries (simplified for the frontend)
+// API Endpoint to Get All Journal Entries (updated to include more fields)
 app.get('/api/journals', async (req, res) => {
   try {
     const result = await pool.query(`
-      SELECT id, title, author, 
+      SELECT id, title, author, category, 
+             volume, issue, 
              publish_date as "publishDate",
              CONCAT('journal_', id, '.pdf') as filename
       FROM journal_entries 
@@ -109,7 +110,7 @@ app.get('/api/journals', async (req, res) => {
   }
 });
 
-// API Endpoint to Get All Journal Entries (with all fields for the dynamic-journal.html)
+// API Endpoint to Get All Journal Entries (with all fields including file_data)
 app.get('/api/journal-entries', async (req, res) => {
   try {
     const result = await pool.query(`
