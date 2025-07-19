@@ -29,11 +29,8 @@ function initHamburgerMenu() {
             
             // Change icon between hamburger and X
             const icon = this.querySelector('i');
-            if (mobileNav.classList.contains('active')) {
-                icon.classList.replace('fa-bars', 'fa-times');
-            } else {
-                icon.classList.replace('fa-times', 'fa-bars');
-            }
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
         });
 
         // Close mobile menu when clicking a link
@@ -42,7 +39,8 @@ function initHamburgerMenu() {
                 mobileNav.classList.remove('active');
                 hamburger.setAttribute('aria-expanded', 'false');
                 const icon = hamburger.querySelector('i');
-                icon.classList.replace('fa-times', 'fa-bars');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
             });
         });
     }
@@ -51,7 +49,7 @@ function initHamburgerMenu() {
 // Highlight current page in navigation
 function updateActiveNav() {
     const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-    const navLinks = document.querySelectorAll('.desktop-nav a, .mobile-nav a');
+    const navLinks = document.querySelectorAll('.desktop-nav a, .mobile-nav a, nav a');
     
     navLinks.forEach(link => {
         const linkPage = link.getAttribute('href');
