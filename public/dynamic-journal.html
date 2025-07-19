@@ -183,7 +183,7 @@
               <b>Volume:</b> ${entry.volume} | <b>Issue:</b> ${entry.issue} 
               | <b>Publish Date:</b> ${new Date(entry.publishDate).toLocaleDateString()}
             </div>
-            <a href="${entry.filePath}" target="_blank"><i class="fas fa-file-pdf"></i> View PDF</a>
+            <a href="/api/journal-entries/${entry.id}/pdf" target="_blank"><i class="fas fa-file-pdf"></i> View PDF</a>
           </div>
         `).join('');
       })

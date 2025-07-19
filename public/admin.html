@@ -30,21 +30,23 @@
       const form = e.target;
       const formData = new FormData(form);
       document.getElementById('result').textContent = "Uploading...";
-      fetch('/upload-journal', {
-        method: 'POST',
-        body: formData
-      })
-      .then(response => response.json())
-      .then(data => {
+      
+      try {
+        const response = await fetch('/upload-journal', {
+          method: 'POST',
+          body: formData
+        });
+        
+        const data = await response.json();
+        
         if (data.entry) {
-          document.getElementById('result').textContent = "Uploaded successfully!";
+          document.getElementById('result').textContent = "Journal entry saved to database successfully!";
         } else {
           document.getElementById('result').textContent = "Upload failed: " + (data.message || data.error);
         }
-      })
-      .catch(err => {
+      } catch (err) {
         document.getElementById('result').textContent = "Error: " + err.message;
-      });
+      }
     });
   </script>
 </body>
