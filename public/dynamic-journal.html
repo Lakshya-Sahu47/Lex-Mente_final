@@ -4,19 +4,20 @@
   <meta charset="UTF-8" />
   <title>Recent Journal Publications | Lex Mente</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
     :root {
       --primary-color: #642c35; /* Burgundy */
       --secondary-color: #a63e4b; /* Highlight */
+      --accent-color: #d8a8b3; /* Soft burgundy for accents */
       --text-color: #212121;
       --light-gray: #f8f9fa;
       --medium-gray: #e9ecef;
       --dark-gray: #495057;
       --white: #ffffff;
-      --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      --transition: all 0.3s ease;
+      --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     }
 
     body {
@@ -31,18 +32,19 @@
     .container {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 2rem;
+      padding: 3rem 2rem;
     }
 
     h1 {
       font-family: 'Merriweather', serif;
       text-align: center;
-      margin-bottom: 2rem;
+      margin-bottom: 3rem;
       color: var(--primary-color);
       font-weight: 700;
-      font-size: 2.2rem;
+      font-size: 2.5rem;
       position: relative;
-      padding-bottom: 1rem;
+      padding-bottom: 1.5rem;
+      letter-spacing: -0.5px;
     }
 
     h1::after {
@@ -51,52 +53,72 @@
       bottom: 0;
       left: 50%;
       transform: translateX(-50%);
-      width: 100px;
-      height: 3px;
-      background: var(--secondary-color);
+      width: 120px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+      border-radius: 2px;
     }
 
     #journal-list {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 2rem;
       margin-top: 2rem;
     }
 
     .entry {
       background: var(--white);
-      border-radius: 8px;
-      padding: 1.5rem;
+      border-radius: 10px;
+      padding: 2rem;
       box-shadow: var(--box-shadow);
       transition: var(--transition);
-      border: 1px solid var(--medium-gray);
+      border: 1px solid rgba(0, 0, 0, 0.05);
       display: flex;
       flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .entry::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--secondary-color);
+      transition: var(--transition);
     }
 
     .entry:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      transform: translateY(-8px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+    }
+
+    .entry:hover::before {
+      width: 6px;
+      background: var(--primary-color);
     }
 
     .entry h3 {
       font-family: 'Merriweather', serif;
-      margin: 0 0 0.75rem 0;
+      margin: 0 0 1rem 0;
       color: var(--primary-color);
-      font-size: 1.3rem;
+      font-size: 1.4rem;
       font-weight: 700;
+      line-height: 1.4;
     }
 
     .entry-meta {
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       color: var(--dark-gray);
-      margin-bottom: 1rem;
-      line-height: 1.5;
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
     }
 
     .entry-meta b {
       color: var(--text-color);
-      font-weight: 600;
+      font-weight: 700;
     }
 
     .entry a {
@@ -108,53 +130,110 @@
       margin-top: auto;
       transition: var(--transition);
       width: fit-content;
+      padding: 0.5rem 0;
+      position: relative;
+    }
+
+    .entry a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--secondary-color);
+      transition: var(--transition);
     }
 
     .entry a:hover {
       color: var(--primary-color);
-      text-decoration: underline;
+    }
+
+    .entry a:hover::after {
+      width: 100%;
     }
 
     .entry a i {
       margin-right: 0.5rem;
+      transition: var(--transition);
+    }
+
+    .entry a:hover i {
+      transform: translateX(3px);
     }
 
     .loading-message,
     .empty-message,
     .error-message {
       text-align: center;
-      font-size: 1.1rem;
+      font-size: 1.2rem;
       color: var(--dark-gray);
-      padding: 2rem;
+      padding: 3rem;
       grid-column: 1 / -1;
+      background: var(--white);
+      border-radius: 8px;
+      box-shadow: var(--box-shadow);
+    }
+
+    .loading-message {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    .loading-message::after {
+      content: '';
+      display: inline-block;
+      width: 1rem;
+      height: 1rem;
+      border: 2px solid var(--medium-gray);
+      border-top-color: var(--secondary-color);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
     }
 
     /* Responsive adjustments */
     @media (max-width: 768px) {
       .container {
-        padding: 1.5rem;
+        padding: 2rem 1.5rem;
       }
 
       h1 {
-        font-size: 1.8rem;
+        font-size: 2rem;
+        margin-bottom: 2.5rem;
       }
 
       #journal-list {
         grid-template-columns: 1fr;
+        gap: 1.5rem;
       }
     }
 
     @media (max-width: 480px) {
       .container {
-        padding: 1rem;
+        padding: 1.5rem 1rem;
       }
 
       h1 {
-        font-size: 1.5rem;
+        font-size: 1.8rem;
+        padding-bottom: 1rem;
+      }
+
+      h1::after {
+        width: 80px;
       }
 
       .entry {
-        padding: 1.2rem;
+        padding: 1.5rem;
+      }
+
+      .entry h3 {
+        font-size: 1.3rem;
       }
     }
   </style>
@@ -163,11 +242,11 @@
   <div class="container">
     <h1>Recent Journal Publications</h1>
     <div id="journal-list">
-      <p class="loading-message">Loading journal entries...</p>
+      <p class="loading-message">Loading journal entries</p>
     </div>
   </div>
   <script>
-    fetch('/api/journal-entries')
+    fetch('/api/journals')
       .then(response => response.json())
       .then(entries => {
         const container = document.getElementById('journal-list');

@@ -109,6 +109,27 @@ app.get('/api/journals', async (req, res) => {
   }
 });
 
+// API Endpoint to Get All Journal Entries (with all fields for the dynamic-journal.html)
+app.get('/api/journal-entries', async (req, res) => {
+  try {
+    const result = await pool.query(`
+      SELECT id, title, author, category, 
+             volume, issue, 
+             publish_date as "publishDate",
+             file_data
+      FROM journal_entries 
+      ORDER BY publish_date DESC
+    `);
+    res.json(result.rows);
+  } catch (error) {
+    console.error('Error fetching journal entries:', error);
+    res.status(500).json({
+      message: 'Server error fetching entries.',
+      error: error.message
+    });
+  }
+});
+
 // API Endpoint to Delete a Journal Entry
 app.delete('/api/journals/:id', async (req, res) => {
   try {
