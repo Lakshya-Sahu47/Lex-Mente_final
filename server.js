@@ -89,12 +89,13 @@ app.post('/upload-journal', upload.single('journalPdf'), async (req, res) => {
   }
 });
 
-// API Endpoint to Get All Journal Entries
-app.get('/api/journal-entries', async (req, res) => {
+// API Endpoint to Get All Journal Entries (simplified for the frontend)
+app.get('/api/journals', async (req, res) => {
   try {
     const result = await pool.query(`
-      SELECT id, title, author, category, volume, issue, 
-             publish_date as "publishDate"
+      SELECT id, title, author, 
+             publish_date as "publishDate",
+             CONCAT('journal_', id, '.pdf') as filename
       FROM journal_entries 
       ORDER BY publish_date DESC
     `);
@@ -103,6 +104,37 @@ app.get('/api/journal-entries', async (req, res) => {
     console.error('Error fetching journal entries:', error);
     res.status(500).json({
       message: 'Server error fetching entries.',
+      error: error.message
+    });
+  }
+});
+
+// API Endpoint to Delete a Journal Entry
+app.delete('/api/journals/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    
+    // First verify the journal exists
+    const checkResult = await pool.query(
+      'SELECT id FROM journal_entries WHERE id = $1', 
+      [id]
+    );
+    
+    if (checkResult.rows.length === 0) {
+      return res.status(404).json({ message: 'Journal not found' });
+    }
+
+    // Delete the journal
+    await pool.query(
+      'DELETE FROM journal_entries WHERE id = $1',
+      [id]
+    );
+
+    res.sendStatus(204);
+  } catch (error) {
+    console.error('Error deleting journal:', error);
+    res.status(500).json({
+      message: 'Server error during deletion.',
       error: error.message
     });
   }

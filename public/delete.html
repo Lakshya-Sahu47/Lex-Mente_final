@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Delete Uploaded Journal</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h2>Delete Uploaded Journal</h2>
+  <div id="journal-list"></div>
+
+  <script>
+    async function loadJournals() {
+      const response = await fetch('/api/journals');
+      const journals = await response.json();
+
+      const container = document.getElementById('journal-list');
+      if (journals.length === 0) {
+        container.innerHTML = '<p>No uploaded journals found.</p>';
+        return;
+      }
+
+      journals.forEach(journal => {
+        const journalDiv = document.createElement('div');
+        journalDiv.id = `journal-${journal.id}`;
+        journalDiv.innerHTML = `
+          <div class="journal-item">
+            <p><strong>${journal.title}</strong>${journal.author ? ' by ' + journal.author : ''}</p>
+            ${journal.filename ? `<p>File: ${journal.filename}</p>` : ''}
+            <button onclick="deleteJournal('${journal.id}')">Delete</button>
+          </div>
+          <hr/>
+        `;
+        container.appendChild(journalDiv);
+      });
+    }
+
+    async function deleteJournal(id) {
+      if (!confirm("Are you sure you want to delete this journal?")) return;
+
+      try {
+        const res = await fetch(`/api/journals/${id}`, { method: 'DELETE' });
+        if (res.ok) {
+          document.getElementById(`journal-${id}`).remove();
+          // Refresh the list if empty
+          if (document.getElementById('journal-list').children.length === 0) {
+            document.getElementById('journal-list').innerHTML = '<p>No uploaded journals found.</p>';
+          }
+        } else {
+          alert("Failed to delete journal.");
+        }
+      } catch (error) {
+        alert("An error occurred while deleting the journal.");
+        console.error(error);
+      }
+    }
+
+    window.onload = loadJournals;
+  </script>
+</body>
+</html>
