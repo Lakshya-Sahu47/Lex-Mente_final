@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Delete Uploaded Journal</title>
+  <meta charset="UTF-8" />
+  <title>Upload New Journal Entry</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root {
@@ -67,48 +67,58 @@
       width: 100%;
     }
 
-    h2 {
+    h1 {
       color: var(--burgundy);
       text-align: center;
       margin-bottom: 2rem;
     }
 
-    #journal-list {
+    form {
       background-color: rgba(100, 44, 53, 0.05);
       padding: 2rem;
       border-radius: 8px;
     }
 
-    .journal-item {
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.75rem;
       margin-bottom: 1.5rem;
-      padding-bottom: 1.5rem;
-      border-bottom: 1px solid rgba(100, 44, 53, 0.1);
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-family: Georgia, serif;
     }
 
-    .journal-item:last-child {
-      border-bottom: none;
-      margin-bottom: 0;
-      padding-bottom: 0;
+    input[type="file"] {
+      padding: 0.5rem;
     }
 
-    .journal-item p {
-      margin: 0.5rem 0;
-    }
-
-    .journal-item button {
+    button[type="submit"] {
       background-color: var(--burgundy);
       color: white;
       border: none;
-      padding: 0.5rem 1rem;
-      font-family: Georgia, serif;
+      padding: 0.75rem 1.5rem;
+      font-family: 'Merriweather', Georgia, serif;
+      font-size: 1rem;
       border-radius: 4px;
       cursor: pointer;
       transition: background-color 0.3s;
-      margin-top: 0.5rem;
     }
 
-    .journal-item button:hover {
+    button[type="submit"]:hover {
       background-color: var(--highlight);
+    }
+
+    #result {
+      margin-top: 1rem;
+      padding: 1rem;
+      border-radius: 4px;
+      text-align: center;
     }
 
     footer {
@@ -133,7 +143,7 @@
         padding: 0 1rem;
       }
 
-      #journal-list {
+      form {
         padding: 1.5rem;
       }
     }
@@ -152,8 +162,25 @@
   </header>
 
   <div class="main-content">
-    <h2>Delete Uploaded Journal</h2>
-    <div id="journal-list"></div>
+    <h1>Upload New Journal Entry</h1>
+    <form id="uploadForm" enctype="multipart/form-data" method="POST" action="/upload-journal">
+      <label>Article Title</label>
+      <input name="title" required>
+      <label>Author Name</label>
+      <input name="author" required>
+      <label>Category</label>
+      <input name="category">
+      <label>Volume</label>
+      <input name="volume" required>
+      <label>Issue</label>
+      <input name="issue" required>
+      <label>Publish Date</label>
+      <input name="publishDate" type="date" required>
+      <label>Upload PDF</label>
+      <input name="journalPdf" type="file" accept="application/pdf" required>
+      <button type="submit">Upload Journal</button>
+    </form>
+    <div id="result"></div>
   </div>
 
   <footer>
@@ -161,51 +188,30 @@
   </footer>
 
   <script>
-    async function loadJournals() {
-      const response = await fetch('/api/journals');
-      const journals = await response.json();
-
-      const container = document.getElementById('journal-list');
-      if (journals.length === 0) {
-        container.innerHTML = '<p>No uploaded journals found.</p>';
-        return;
-      }
-
-      journals.forEach(journal => {
-        const journalDiv = document.createElement('div');
-        journalDiv.id = `journal-${journal.id}`;
-        journalDiv.innerHTML = `
-          <div class="journal-item">
-            <p><strong>${journal.title}</strong>${journal.author ? ' by ' + journal.author : ''}</p>
-            ${journal.filename ? `<p>File: ${journal.filename}</p>` : ''}
-            <button onclick="deleteJournal('${journal.id}')">Delete</button>
-          </div>
-        `;
-        container.appendChild(journalDiv);
-      });
-    }
-
-    async function deleteJournal(id) {
-      if (!confirm("Are you sure you want to delete this journal?")) return;
-
+    document.getElementById('uploadForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const form = e.target;
+      const formData = new FormData(form);
+      document.getElementById('result').textContent = "Uploading...";
+      
       try {
-        const res = await fetch(`/api/journals/${id}`, { method: 'DELETE' });
-        if (res.ok) {
-          document.getElementById(`journal-${id}`).remove();
-          // Refresh the list if empty
-          if (document.getElementById('journal-list').children.length === 0) {
-            document.getElementById('journal-list').innerHTML = '<p>No uploaded journals found.</p>';
-          }
+        const response = await fetch('/upload-journal', {
+          method: 'POST',
+          body: formData
+        });
+        
+        const data = await response.json();
+        
+        if (data.entry) {
+          document.getElementById('result').textContent = "Journal entry saved to database successfully!";
+          form.reset();
         } else {
-          alert("Failed to delete journal.");
+          document.getElementById('result').textContent = "Upload failed: " + (data.message || data.error);
         }
-      } catch (error) {
-        alert("An error occurred while deleting the journal.");
-        console.error(error);
+      } catch (err) {
+        document.getElementById('result').textContent = "Error: " + err.message;
       }
-    }
-
-    window.onload = loadJournals;
+    });
   </script>
 </body>
 </html>
