@@ -193,6 +193,34 @@
       animation: spin 1s linear infinite;
     }
 
+    .nav-button {
+      display: block;
+      text-align: center;
+      margin-top: 3rem;
+    }
+
+    .nav-button a {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.8rem 1.5rem;
+      background-color: var(--primary-color);
+      color: var(--white);
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: 600;
+      transition: var(--transition);
+      box-shadow: var(--box-shadow);
+    }
+
+    .nav-button a:hover {
+      background-color: var(--secondary-color);
+      transform: translateY(-2px);
+    }
+
+    .nav-button a i {
+      margin-right: 0.5rem;
+    }
+
     @keyframes spin {
       to { transform: rotate(360deg); }
     }
@@ -235,6 +263,10 @@
       .entry h3 {
         font-size: 1.3rem;
       }
+
+      .nav-button {
+        margin-top: 2rem;
+      }
     }
   </style>
 </head>
@@ -243,6 +275,9 @@
     <h1>Recent Journal Publications</h1>
     <div id="journal-list">
       <p class="loading-message">Loading journal entries</p>
+    </div>
+    <div class="nav-button">
+      <a href="index.html"><i class="fas fa-arrow-left"></i> Back to Home</a>
     </div>
   </div>
   <script>
