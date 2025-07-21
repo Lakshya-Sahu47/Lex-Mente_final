@@ -84,28 +84,40 @@
             </tbody>
         </table>
 
-        <div id="journal-entries-container">
-            <div id="journal-list">
-                <div class="journal-entry">
-                    <h3>The Constitutionality of Preventive Detention Laws</h3>
-                    <div class="entry-meta">
-                        <span><i class="fas fa-user"></i> Rohan Mehta</span>
-                        <span><i class="fas fa-calendar-alt"></i> 20 June 2025</span>
-                        <span><i class="fas fa-book"></i> Vol. 1, Issue 1</span>
-                        <span><i class="fas fa-tag"></i> Constitutional Law</span>
-                    </div>
-                    <p>A critical assessment of how preventive detention statutes align with constitutional safeguards of liberty and due process in India.</p>
-                    <div class="article-actions">
-                        <a href="#" class="article-btn">
-                            <i class="far fa-file-pdf" aria-hidden="true"></i> Download PDF
-                        </a>
-                        <a href="#journal-entries-container" class="article-btn" onclick="alert('Citation format: Rohan Mehta, \"The Constitutionality of Preventive Detention Laws\", 1 Lex Mente 1 (2025)')">
-                            <i class="fas fa-quote-right" aria-hidden="true"></i> Cite
-                        </a>
-                    </div>
-                </div>
+        <div class="container">
+    <h1>Recent Journal Publications</h1>
+    <div id="journal-list">
+      <p class="loading-message">Loading journal entries</p>
+    </div>
+    <div class="nav-button">
+      <a href="index.html"><i class="fas fa-arrow-left"></i> Back to Home</a>
+    </div>
+  </div>
+  <script>
+    fetch('/api/journal-entries')
+      .then(response => response.json())
+      .then(entries => {
+        const container = document.getElementById('journal-list');
+        if (!entries.length) {
+          container.innerHTML = '<p class="empty-message">No journal entries available yet.</p>';
+          return;
+        }
+        container.innerHTML = entries.map(entry => `
+          <div class="entry">
+            <h3>${entry.title}</h3>
+            <div class="entry-meta">
+              <b>Author:</b> ${entry.author || '––'} | <b>Category:</b> ${entry.category || '––'}<br/>
+              <b>Volume:</b> ${entry.volume || '––'} | <b>Issue:</b> ${entry.issue || '––'} 
+              | <b>Publish Date:</b> ${entry.publishDate ? new Date(entry.publishDate).toLocaleDateString() : '––'}
             </div>
-        </div>
+            <a href="/api/journal-entries/${entry.id}/pdf" target="_blank"><i class="fas fa-file-pdf"></i> View PDF</a>
+          </div>
+        `).join('');
+      })
+      .catch(() => {
+        document.getElementById('journal-list').innerHTML = '<p class="error-message">Error loading journal entries. Please try again later.</p>';
+      });
+  </script>
 
         <a href="dynamic-journal.html" class="view-all-btn">
             <i class="fas fa-book-open"></i> View All Articles
