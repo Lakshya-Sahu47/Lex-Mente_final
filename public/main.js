@@ -14,6 +14,11 @@ document.addEventListener('DOMContentLoaded', function() {
     if (document.getElementById('instagram-feed')) {
         setTimeout(showFallbackContent, 1500);
     }
+    
+    // Load journal entries if on journal page
+    if (document.getElementById('journal-list')) {
+        loadJournalEntries();
+    }
 });
 
 // Hamburger menu toggle
@@ -93,25 +98,65 @@ function showFallbackContent() {
     }
 }
 
-// For production, you would implement a proper Instagram API integration
-// This would require server-side code due to CORS and authentication requirements
-async function fetchInstagramPosts() {
-    try {
-        // This would be replaced with actual API call to your backend
-        // which would then call the Instagram API with proper authentication
-        const response = await fetch('/api/instagram-posts');
-        if (!response.ok) throw new Error('Failed to fetch posts');
-        
-        const data = await response.json();
-        displayInstagramPosts(data);
-    } catch (error) {
-        console.error('Error fetching Instagram posts:', error);
-        showFallbackContent();
-    }
-}
+// Load journal entries
+function loadJournalEntries() {
+    // Show loading state
+    const container = document.getElementById('journal-list');
+    container.innerHTML = '<p class="loading-message"><span class="loader"></span> Loading journal entries...</p>';
+    
+    // Simulate API call (replace with actual fetch in production)
+    setTimeout(() => {
+        // This would be replaced with actual API call in production
+        // fetch('/api/journal-entries').then().catch()
+        const mockEntries = [
+            {
+                id: 1,
+                title: "The Constitutionality of Preventive Detention Laws",
+                author: "Rohan Mehta",
+                category: "Constitutional Law",
+                volume: "Vol. 1",
+                issue: "Issue 1",
+                publishDate: "2025-06-20",
+                abstract: "A critical assessment of how preventive detention statutes align with constitutional safeguards of liberty and due process in India."
+            },
+            {
+                id: 2,
+                title: "Digital Privacy Rights in the Age of Surveillance",
+                author: "Priya Sharma",
+                category: "Technology Law",
+                volume: "Vol. 1",
+                issue: "Issue 1",
+                publishDate: "2025-06-15",
+                abstract: "Examining the balance between national security and individual privacy rights in digital surveillance programs."
+            }
+        ];
 
-function displayInstagramPosts(posts) {
-    // Implementation to display posts would go here
+        if (!mockEntries.length) {
+            container.innerHTML = '<p class="empty-message">No journal entries available yet.</p>';
+            return;
+        }
+
+        container.innerHTML = mockEntries.map(entry => `
+            <div class="journal-entry">
+                <h3>${entry.title}</h3>
+                <div class="entry-meta">
+                    <span><i class="fas fa-user"></i> ${entry.author}</span>
+                    <span><i class="fas fa-calendar-alt"></i> ${new Date(entry.publishDate).toLocaleDateString()}</span>
+                    <span><i class="fas fa-book"></i> ${entry.volume}, ${entry.issue}</span>
+                    <span><i class="fas fa-tag"></i> ${entry.category}</span>
+                </div>
+                <p>${entry.abstract}</p>
+                <div class="article-actions">
+                    <a href="#" class="article-btn">
+                        <i class="far fa-file-pdf" aria-hidden="true"></i> Download PDF
+                    </a>
+                    <a href="#" class="article-btn" onclick="alert('Citation format: ${entry.author}, \"${entry.title}\", ${entry.volume} Lex Mente ${entry.issue} (${new Date(entry.publishDate).getFullYear()})')">
+                        <i class="fas fa-quote-right" aria-hidden="true"></i> Cite
+                    </a>
+                </div>
+            </div>
+        `).join('');
+    }, 1000);
 }
 
 // Debounced resize handler
