@@ -89,6 +89,45 @@ app.post('/upload-journal', upload.single('journalPdf'), async (req, res) => {
   }
 });
 
+// API Endpoint to Initialize Sample Data
+app.post('/api/initialize-sample', async (req, res) => {
+  try {
+    const samplePdfPath = path.join(__dirname, 'sample.pdf');
+    const fileData = fs.readFileSync(samplePdfPath);
+
+    await pool.query(
+      `INSERT INTO journal_entries 
+       (id, title, author, category, volume, issue, publish_date, file_data) 
+       VALUES (1, $1, $2, $3, $4, $5, $6, $7)
+       ON CONFLICT (id) DO UPDATE SET
+          title = EXCLUDED.title,
+          author = EXCLUDED.author,
+          category = EXCLUDED.category,
+          volume = EXCLUDED.volume,
+          issue = EXCLUDED.issue,
+          publish_date = EXCLUDED.publish_date,
+          file_data = EXCLUDED.file_data`,
+      [
+        'Sample Article: The Evolution of Digital Privacy Laws',
+        'Jane Doe',
+        'Technology Law',
+        '1',
+        '1',
+        new Date('2025-06-15'),
+        fileData
+      ]
+    );
+
+    res.json({ message: 'Sample data initialized successfully' });
+  } catch (error) {
+    console.error('Error initializing sample data:', error);
+    res.status(500).json({ 
+      message: 'Failed to initialize sample data', 
+      error: error.message 
+    });
+  }
+});
+
 // API Endpoint to Get All Journal Entries (updated to include more fields)
 app.get('/api/journals', async (req, res) => {
   try {

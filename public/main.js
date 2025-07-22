@@ -19,6 +19,11 @@ document.addEventListener('DOMContentLoaded', function() {
     if (document.getElementById('journal-list')) {
         loadJournalEntries();
     }
+
+    // Initialize sample PDF data if on admin page
+    if (document.getElementById('admin-upload')) {
+        initializeSampleData();
+    }
 });
 
 // Hamburger menu toggle
@@ -104,59 +109,60 @@ function loadJournalEntries() {
     const container = document.getElementById('journal-list');
     container.innerHTML = '<p class="loading-message"><span class="loader"></span> Loading journal entries...</p>';
     
-    // Simulate API call (replace with actual fetch in production)
-    setTimeout(() => {
-        // This would be replaced with actual API call in production
-        // fetch('/api/journal-entries').then().catch()
-        const mockEntries = [
-            {
-                id: 1,
-                title: "The Constitutionality of Preventive Detention Laws",
-                author: "Rohan Mehta",
-                category: "Constitutional Law",
-                volume: "Vol. 1",
-                issue: "Issue 1",
-                publishDate: "2025-06-20",
-                abstract: "A critical assessment of how preventive detention statutes align with constitutional safeguards of liberty and due process in India."
-            },
-            {
-                id: 2,
-                title: "Digital Privacy Rights in the Age of Surveillance",
-                author: "Priya Sharma",
-                category: "Technology Law",
-                volume: "Vol. 1",
-                issue: "Issue 1",
-                publishDate: "2025-06-15",
-                abstract: "Examining the balance between national security and individual privacy rights in digital surveillance programs."
+    fetch('/api/journals')
+        .then(response => response.json())
+        .then(entries => {
+            if (!entries.length) {
+                container.innerHTML = '<p class="empty-message">No journal entries available yet.</p>';
+                return;
             }
-        ];
 
-        if (!mockEntries.length) {
-            container.innerHTML = '<p class="empty-message">No journal entries available yet.</p>';
-            return;
+            container.innerHTML = entries.map(entry => `
+                <div class="journal-entry">
+                    <h3>${entry.title}</h3>
+                    <div class="entry-meta">
+                        <span><i class="fas fa-user"></i> ${entry.author || 'Anonymous'}</span>
+                        <span><i class="fas fa-calendar-alt"></i> ${entry.publishDate ? new Date(entry.publishDate).toLocaleDateString() : 'Date not available'}</span>
+                        <span><i class="fas fa-book"></i> ${entry.volume || 'Vol. N/A'}, ${entry.issue || 'Issue N/A'}</span>
+                        <span><i class="fas fa-tag"></i> ${entry.category || 'Uncategorized'}</span>
+                    </div>
+                    <div class="article-actions">
+                        <a href="/api/journal-entries/${entry.id}/pdf" class="article-btn" download>
+                            <i class="far fa-file-pdf" aria-hidden="true"></i> Download PDF
+                        </a>
+                        <a href="#" class="article-btn" onclick="alert('Citation format: ${entry.author || 'Anonymous'}, \"${entry.title}\", ${entry.volume || 'Vol. N/A'} Lex Mente ${entry.issue || 'Issue N/A'} (${entry.publishDate ? new Date(entry.publishDate).getFullYear() : 'n.d.'})')">
+                            <i class="fas fa-quote-right" aria-hidden="true"></i> Cite
+                        </a>
+                    </div>
+                </div>
+            `).join('');
+        })
+        .catch(error => {
+            console.error('Error loading journal entries:', error);
+            container.innerHTML = '<p class="error-message">Error loading journal entries. Please try again later.</p>';
+        });
+}
+
+// Initialize sample PDF data (for admin use)
+async function initializeSampleData() {
+    try {
+        const response = await fetch('/api/initialize-sample', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        
+        const result = await response.json();
+        if (response.ok) {
+            alert('Sample data initialized successfully!');
+        } else {
+            alert(`Error: ${result.message}`);
         }
-
-        container.innerHTML = mockEntries.map(entry => `
-            <div class="journal-entry">
-                <h3>${entry.title}</h3>
-                <div class="entry-meta">
-                    <span><i class="fas fa-user"></i> ${entry.author}</span>
-                    <span><i class="fas fa-calendar-alt"></i> ${new Date(entry.publishDate).toLocaleDateString()}</span>
-                    <span><i class="fas fa-book"></i> ${entry.volume}, ${entry.issue}</span>
-                    <span><i class="fas fa-tag"></i> ${entry.category}</span>
-                </div>
-                <p>${entry.abstract}</p>
-                <div class="article-actions">
-                    <a href="#" class="article-btn">
-                        <i class="far fa-file-pdf" aria-hidden="true"></i> Download PDF
-                    </a>
-                    <a href="#" class="article-btn" onclick="alert('Citation format: ${entry.author}, \"${entry.title}\", ${entry.volume} Lex Mente ${entry.issue} (${new Date(entry.publishDate).getFullYear()})')">
-                        <i class="fas fa-quote-right" aria-hidden="true"></i> Cite
-                    </a>
-                </div>
-            </div>
-        `).join('');
-    }, 1000);
+    } catch (error) {
+        console.error('Error initializing sample data:', error);
+        alert('Failed to initialize sample data');
+    }
 }
 
 // Debounced resize handler

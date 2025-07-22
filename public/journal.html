@@ -7,6 +7,75 @@
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;600;700;900&family=Georgia&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Sample article styles */
+        .sample-article {
+            background: #fff;
+            border-radius: 8px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border-left: 4px solid #a63e4b;
+        }
+        
+        .sample-article h3 {
+            font-family: 'Merriweather', serif;
+            color: #642c35;
+            margin-top: 0;
+            font-size: 1.5rem;
+        }
+        
+        .sample-article .article-meta {
+            color: #495057;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+        
+        .sample-article .article-meta b {
+            color: #212121;
+        }
+        
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.6rem 1.2rem;
+            background-color: #642c35;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .download-btn:hover {
+            background-color: #a63e4b;
+        }
+        
+        .download-btn i {
+            margin-right: 0.5rem;
+        }
+        
+        .view-all-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.8rem 1.5rem;
+            background-color: #642c35;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin: 1rem 0 2rem;
+        }
+        
+        .view-all-btn:hover {
+            background-color: #a63e4b;
+        }
+        
+        .view-all-btn i {
+            margin-right: 0.5rem;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -84,44 +153,21 @@
             </tbody>
         </table>
 
-        <div class="container">
-    <h1>Recent Journal Publications</h1>
-    <div id="journal-list">
-      <p class="loading-message">Loading journal entries</p>
-    </div>
-    <div class="nav-button">
-      <a href="index.html"><i class="fas fa-arrow-left"></i> Back to Home</a>
-    </div>
-  </div>
-  <script>
-    fetch('/api/journal-entries')
-      .then(response => response.json())
-      .then(entries => {
-        const container = document.getElementById('journal-list');
-        if (!entries.length) {
-          container.innerHTML = '<p class="empty-message">No journal entries available yet.</p>';
-          return;
-        }
-        container.innerHTML = entries.map(entry => `
-          <div class="entry">
-            <h3>${entry.title}</h3>
-            <div class="entry-meta">
-              <b>Author:</b> ${entry.author || '––'} | <b>Category:</b> ${entry.category || '––'}<br/>
-              <b>Volume:</b> ${entry.volume || '––'} | <b>Issue:</b> ${entry.issue || '––'} 
-              | <b>Publish Date:</b> ${entry.publishDate ? new Date(entry.publishDate).toLocaleDateString() : '––'}
-            </div>
-            <a href="/api/journal-entries/${entry.id}/pdf" target="_blank"><i class="fas fa-file-pdf"></i> View PDF</a>
-          </div>
-        `).join('');
-      })
-      .catch(() => {
-        document.getElementById('journal-list').innerHTML = '<p class="error-message">Error loading journal entries. Please try again later.</p>';
-      });
-  </script>
-
         <a href="dynamic-journal.html" class="view-all-btn">
             <i class="fas fa-book-open"></i> View All Articles
         </a>
+
+        <div class="sample-article">
+            <h3>Sample Article: The Evolution of Digital Privacy Laws</h3>
+            <div class="article-meta">
+                <b>Author:</b> Jane Doe | <b>Category:</b> Technology Law<br/>
+                <b>Volume:</b> 1 | <b>Issue:</b> 1 | <b>Publish Date:</b> June 15, 2025
+            </div>
+            <p>This sample article examines the rapid development of digital privacy legislation across different jurisdictions and proposes a framework for harmonizing these laws internationally.</p>
+            <a href="/api/journal-entries/1/pdf" class="download-btn" download="Sample_Article_LexMente.pdf">
+                <i class="fas fa-file-pdf"></i> Download PDF
+            </a>
+        </div>
     </main>
     
     <footer>
